@@ -1,1 +1,1 @@
-# syncify
+# Syncify
