@@ -4,6 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public interface MusicPlayerActivity {
+public abstract class MusicPlayerActivity extends AppCompatActivity {
 
 }

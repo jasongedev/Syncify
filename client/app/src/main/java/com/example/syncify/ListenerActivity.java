@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class ListenerActivity extends AppCompatActivity implements MusicPlayerActivity {
+public class ListenerActivity extends  MusicPlayerActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
