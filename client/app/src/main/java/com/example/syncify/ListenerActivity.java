@@ -11,4 +11,9 @@ public class ListenerActivity extends  MusicPlayerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listener);
     }
+
+    public void exitRoom(){
+
+    }
+
 }
