@@ -24,6 +24,7 @@
         android:layout_width="208dp"
         android:layout_height="55dp"
         android:layout_marginBottom="24dp"
+        android:onClick="loginWithSpotify"
         android:text="Sign in"
         app:backgroundTint="@color/lightgreen"
         app:layout_constraintBottom_toTopOf="@+id/guestsignin"
