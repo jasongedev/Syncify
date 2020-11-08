@@ -3,21 +3,19 @@ package com.example.syncify;
 
 import org.junit.Test;
 
-import java.lang.reflect.*;
-
 import static org.junit.Assert.*;
 
-public class SelectPlaylistFragmentTest {
+public class SelectPlaylistActivityTest {
 
     @Test
     public void getNonNullArrayOfPlaylists() {
-        SelectPlaylistFragment frag = new SelectPlaylistFragment();
+        SelectPlaylistActivity frag = new SelectPlaylistActivity();
         assertNotNull(frag.getPlaylists());
     }
 
     @Test
     public void missingPlaylistData() {
-        SelectPlaylistFragment frag = new SelectPlaylistFragment();
+        SelectPlaylistActivity frag = new SelectPlaylistActivity();
         String[] playlists = frag.getPlaylists();
         for (String s : playlists) {
             assertNotNull(s);
