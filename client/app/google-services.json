@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "523071879953",
+    "firebase_url": "https://syncify-bf9e2.firebaseio.com",
+    "project_id": "syncify-bf9e2",
+    "storage_bucket": "syncify-bf9e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523071879953:android:918edea77c45b576656ab0",
+        "android_client_info": {
+          "package_name": "com.example.syncify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523071879953-ikbfna5deh7uvq26lpjff08ss7hihtmn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIDKlnJE1oxJ2aFkSAqRCE36rXob9sTf0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523071879953-ikbfna5deh7uvq26lpjff08ss7hihtmn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
