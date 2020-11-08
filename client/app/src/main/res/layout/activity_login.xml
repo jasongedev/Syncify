@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#22333B"
+    android:background="@color/background"
     tools:context=".LoginActivity">
 
     <Button
@@ -14,7 +14,7 @@
         android:layout_marginBottom="64dp"
         android:text="Use as Guest"
         android:textColor="#3DD598"
-        app:backgroundTint="#286053"
+        app:backgroundTint="@color/darkgreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -25,7 +25,7 @@
         android:layout_height="55dp"
         android:layout_marginBottom="24dp"
         android:text="Sign in"
-        app:backgroundTint="#3FD89A"
+        app:backgroundTint="@color/lightgreen"
         app:layout_constraintBottom_toTopOf="@+id/guestsignin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -58,7 +58,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="64dp"
-        app:cardBackgroundColor="#3FDA9B"
+        app:cardBackgroundColor="@color/lightgreen"
         app:cardCornerRadius="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
