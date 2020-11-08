@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Syncify">
-        <activity android:name=".SearchUserActivity"></activity>
+        <activity android:name=".SearchUserActivity"/>
         <activity android:name=".ListenerActivity" />
         <activity android:name=".HostActivity" />
         <activity android:name=".MusicPlayerActivity" />
