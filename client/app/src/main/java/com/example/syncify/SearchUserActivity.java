@@ -40,8 +40,8 @@ public class SearchUserActivity extends AppCompatActivity {
 //        return searchResults;
 //    }
 
-    public void generateList(User[] user_array)
+    /*public void generateList(User[] user_array)
     {
 
-    }
+    }*/
 }
