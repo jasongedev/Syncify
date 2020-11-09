@@ -6,6 +6,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class Session {
+    public static String key;
     public static boolean isGuest;
     public static String accessToken;
     public static String refreshToken;

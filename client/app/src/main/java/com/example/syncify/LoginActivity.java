@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
@@ -132,8 +134,16 @@ public class LoginActivity extends AppCompatActivity {
                     Session.expiresIn = jObject.get("expires_in").getAsInt();
                     Session.isGuest = false;
 
-                    // TODO: make new user object in database
                     // TODO: Session.autoUpdateToken();
+
+                    DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+                    DatabaseReference users = root.child("users");
+                    User thisUser = new User(Session.accessToken);
+                    DatabaseReference pushedRef = users.push();
+                    pushedRef.setValue(thisUser);
+                    Session.key = pushedRef.getKey();
+                    Log.d("Key", Session.key);
+
                     Intent intent = new Intent(this, StarterPageActivity.class);
                     startActivity(intent);
                 } else {
