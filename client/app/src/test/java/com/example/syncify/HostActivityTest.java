@@ -11,12 +11,35 @@ import com.google.firebase.database.ValueEventListener;
 import junit.framework.TestCase;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class HostActivityTest extends TestCase {
+public class HostActivityTest {
 
+    @Test
+    public void upDateField(){
+        DatabaseReference rootRef = FirebaseDatabase.getInstance("https://syncify-bf9e2.firebaseio.com/").getReference();
+        rootRef.child("users").child("-MLa9CT8ixbBZcCZFqFa").child("name").setValue("masatoisHere");
+
+        DatabaseReference users = rootRef.child("users");
+        DatabaseReference mattSong = users.child("-MLa9CT8ixbBZcCZFqFa");
+        mattSong.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Assert.assertEquals(snapshot.child("name").getValue(String.class),"masatoisHere");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        mattSong.removeValue();
+
+    }
     public void testBroadcastPlay() {
         /*HostActivity host = new HostActivity();
         Method broadCastPlay = HostActivity.getMethod("broadCastPlay", String.class, String.class, String.class);
