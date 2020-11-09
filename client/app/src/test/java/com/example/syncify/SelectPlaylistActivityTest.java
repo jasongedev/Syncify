@@ -9,15 +9,15 @@ public class SelectPlaylistActivityTest {
 
     @Test
     public void getNonNullArrayOfPlaylists() {
-        SelectPlaylistActivity frag = new SelectPlaylistActivity();
-        assertNotNull(frag.getPlaylists());
+        SelectPlaylistActivity act = new SelectPlaylistActivity();
+        assertNotNull(act.getPlaylists());
     }
 
     @Test
     public void missingPlaylistData() {
-        SelectPlaylistActivity frag = new SelectPlaylistActivity();
-        String[] playlists = frag.getPlaylists();
-        for (String s : playlists) {
+        SelectPlaylistActivity act = new SelectPlaylistActivity();
+        Playlist[] playlists = act.getPlaylists();
+        for (Playlist s : playlists) {
             assertNotNull(s);
         }
     }

@@ -1,12 +1,13 @@
 package com.example.syncify;
 
 import android.os.Bundle;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SelectPlaylistActivity extends AppCompatActivity {
 
-    String[] playlists;
+    ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,12 +15,13 @@ public class SelectPlaylistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
     }
-    public String[] getPlaylists() {
+
+    public Playlist[] getPlaylists() {
 
         return null;
     }
 
-    void generateList() {
+    void generateList(Playlist[] playlists) {
 
     }
 }
