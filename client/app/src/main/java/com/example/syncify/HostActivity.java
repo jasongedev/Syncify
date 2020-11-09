@@ -33,7 +33,7 @@ public class HostActivity extends MusicPlayerActivity {
     public void closeRoom(View v){
         //
     }
-    void broadCastPlay(string songName, string songArtist, string songURI){
+    void broadCastPlay(String songName, String songArtist, String songURI){
         //User user = new User();
         //user.playingState = "play";
     }
