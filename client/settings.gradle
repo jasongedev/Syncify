@@ -1,2 +1,4 @@
+include ':spotify-app-remote'
+include ':spotify-auth'
 include ':app'
 rootProject.name = "Syncify"
