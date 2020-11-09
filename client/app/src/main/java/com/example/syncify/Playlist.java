@@ -1,4 +1,4 @@
-package com.example.syncify.dataclasses;
+package com.example.syncify;
 
 public class Playlist {
     public String name;
