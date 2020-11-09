@@ -20,29 +20,28 @@ public class SearchUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_user);
     }
 
-    public String[] getResults(String searchID) // want to show users that are hosting a room at the current moment
+//    public String[] getResults(String searchID) // want to show users that are hosting a room at the current moment
+//    {
+//        searchInput = searchID;
+//        mref.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot snapshot_each : snapshot.getChildren()){
+//                    String name = snapshot_each.getValue(String.class);
+//                    searchResults.insert(name);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//        return searchResults;
+//    }
+
+    public void generateList(User[] user_array)
     {
-        searchInput = searchID;
-        mref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snapshot_each : snapshot.getChildren()){
-                    String name = snapshot_each.getValue(String.class);
-                    searchResults.add(name);
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        // send http request to server with searchInput
-        // get json object of list of search ID
-        // parse json object to get string of searchIDs
-        // if syntax is wrong, return error
-        // if none are displayed, then display empty string[]
-
-        return searchResults;
     }
 }
