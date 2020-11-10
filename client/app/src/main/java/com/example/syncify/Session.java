@@ -21,6 +21,6 @@ public class Session {
             new ScheduledThreadPoolExecutor(1);
 
     public static void autoUpdateToken() {
-        eService.scheduleAtFixedRate(new TokenRefresher(), 55, 55, TimeUnit.MINUTES);
+        eService.scheduleAtFixedRate(new TokenRefresher(), expiresIn - 5, expiresIn - 5, TimeUnit.MINUTES);
     }
 }
