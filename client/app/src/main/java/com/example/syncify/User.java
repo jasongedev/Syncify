@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class User {
     public String key;
-    public String name = "none";
+    public boolean isGuest;
+    public String name = "";
     public String accessToken;
     public boolean isPlaying;
     public long timestamp;
@@ -19,7 +20,12 @@ public class User {
     public ArrayList<Playlist> playlists;
     public ArrayList<User> searchedUsers;
 
+    public User() {
+        isGuest = false;
+    }
+
     public User(String accessToken) {
         this.accessToken = accessToken;
+        isGuest = true;
     }
 }

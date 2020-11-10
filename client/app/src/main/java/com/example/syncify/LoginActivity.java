@@ -91,7 +91,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginAsGuest(View view) {
-        // TODO: loginAsGuest
+        makeUserDBObject(true);
+        Intent intent = new Intent(this, StarterPageActivity.class);
+        startActivity(intent);
     }
 
     private void claimTokens(String authorizationCode) {
@@ -129,18 +131,9 @@ public class LoginActivity extends AppCompatActivity {
                     Session.accessToken = jObject.get("access_token").getAsString();
                     Session.refreshToken = jObject.get("refresh_token").getAsString();
                     Session.expiresIn = jObject.get("expires_in").getAsInt();
-                    Session.isGuest = false;
                     Session.autoUpdateToken();
 
-                    DatabaseReference root = FirebaseDatabase.getInstance().getReference();
-                    DatabaseReference users = root.child("users");
-                    User thisUser = new User(Session.accessToken);
-
-                    Session.user = users.push();
-                    Session.user.setValue(thisUser);
-                    Session.key = Session.user.getKey();
-                    Log.d("Key", Session.key);
-
+                    makeUserDBObject(false);
                     Intent intent = new Intent(this, StarterPageActivity.class);
                     startActivity(intent);
                 } else {
@@ -153,5 +146,23 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         thread.start();
+    }
+
+    private void makeUserDBObject(boolean isGuest) {
+        Session.isGuest = isGuest;
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference users = root.child("users");
+
+        User thisUser;
+        if (isGuest) {
+            thisUser = new User();
+        } else {
+            thisUser = new User(Session.accessToken);
+        }
+
+        Session.user = users.push();
+        Session.user.setValue(thisUser);
+        Session.key = Session.user.getKey();
+        Log.d("Key", Session.key);
     }
 }
