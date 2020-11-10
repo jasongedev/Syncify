@@ -4,6 +4,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class Session {
     public static String key;
@@ -12,10 +13,14 @@ public class Session {
     public static String refreshToken;
     public static int expiresIn;
     public static DatabaseReference user;
+
+    public static String CLIENT_ID;
+    public static String CLIENT_SECRET;
+    public static String REDIRECT_URI;
     private static final ScheduledExecutorService eService =
             new ScheduledThreadPoolExecutor(1);
 
     public static void autoUpdateToken() {
-        // eService starts TokenRefresher thread to acquire a new access token every 55 minutes.
+        eService.scheduleAtFixedRate(new TokenRefresher(), 55, 55, TimeUnit.MINUTES);
     }
 }

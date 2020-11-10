@@ -27,9 +27,6 @@ import java.util.Base64;
 public class LoginActivity extends AppCompatActivity {
 
     private final int REQUEST_CODE = 1234;
-    private String CLIENT_ID;
-    private String CLIENT_SECRET;
-    private String REDIRECT_URI;
     private String[] scopes;
 
     @Override
@@ -37,9 +34,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        CLIENT_ID = getResources().getString(R.string.clientId);
-        CLIENT_SECRET = getResources().getString(R.string.clientSecret);
-        REDIRECT_URI = getResources().getString(R.string.redirectUri);
+        Session.CLIENT_ID = getResources().getString(R.string.clientId);
+        Session.CLIENT_SECRET = getResources().getString(R.string.clientSecret);
+        Session.REDIRECT_URI = getResources().getString(R.string.redirectUri);
         scopes = new String[]{"app-remote-control", "user-read-private", "playlist-read-private"};
     }
 
@@ -84,8 +81,8 @@ public class LoginActivity extends AppCompatActivity {
 
         AuthenticationRequest request;
         AuthenticationRequest.Builder builder =
-                new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.CODE,
-                        REDIRECT_URI);
+                new AuthenticationRequest.Builder(Session.CLIENT_ID, AuthenticationResponse.Type.CODE,
+                        Session.REDIRECT_URI);
 
         builder.setScopes(scopes);
         request = builder.build();
@@ -99,10 +96,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void claimTokens(String authorizationCode) {
         Thread thread = new Thread(() -> {
-            String credentials = CLIENT_ID + ":" + CLIENT_SECRET;
+            String credentials = Session.CLIENT_ID + ":" + Session.CLIENT_SECRET;
 
             try {
-                URL url = new URL("https://accounts.spotify.com/api/token?grant_type=authorization_code&code=" + authorizationCode + "&redirect_uri=" + REDIRECT_URI);
+                URL url = new URL("https://accounts.spotify.com/api/token?grant_type=authorization_code&code=" + authorizationCode + "&redirect_uri=" + Session.REDIRECT_URI);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 urlConnection.setRequestProperty("Authorization", "Basic " + new String(Base64.getEncoder().encode(credentials.getBytes())));
@@ -133,15 +130,15 @@ public class LoginActivity extends AppCompatActivity {
                     Session.refreshToken = jObject.get("refresh_token").getAsString();
                     Session.expiresIn = jObject.get("expires_in").getAsInt();
                     Session.isGuest = false;
-
-                    // TODO: Session.autoUpdateToken();
+                    Session.autoUpdateToken();
 
                     DatabaseReference root = FirebaseDatabase.getInstance().getReference();
                     DatabaseReference users = root.child("users");
                     User thisUser = new User(Session.accessToken);
-                    DatabaseReference pushedRef = users.push();
-                    pushedRef.setValue(thisUser);
-                    Session.key = pushedRef.getKey();
+
+                    Session.user = users.push();
+                    Session.user.setValue(thisUser);
+                    Session.key = Session.user.getKey();
                     Log.d("Key", Session.key);
 
                     Intent intent = new Intent(this, StarterPageActivity.class);
