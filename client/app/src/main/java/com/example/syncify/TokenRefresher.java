@@ -18,7 +18,6 @@ public class TokenRefresher implements Runnable {
 
     @Override
     public void run() {
-        // TODO: use refresh token to generate a new access token
         String credentials = Session.CLIENT_ID + ":" + Session.CLIENT_SECRET;
 
         try {
@@ -46,7 +45,6 @@ public class TokenRefresher implements Runnable {
                 Thread.sleep(500);
             }
 
-            // TODO: make sure this is good
             if (response.equals("OK")) {
                 JsonParser jParser = new JsonParser();
                 JsonObject jObject = jParser.parse(br).getAsJsonObject();
