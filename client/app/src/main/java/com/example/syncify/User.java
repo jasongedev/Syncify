@@ -21,11 +21,11 @@ public class User {
     public ArrayList<User> searchedUsers;
 
     public User() {
-        isGuest = false;
+        isGuest = true;
     }
 
     public User(String accessToken) {
         this.accessToken = accessToken;
-        isGuest = true;
+        isGuest = false;
     }
 }
