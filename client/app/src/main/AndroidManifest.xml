@@ -14,6 +14,7 @@
         <activity android:name=".HostActivity" />
         <activity android:name=".MusicPlayerActivity" />
         <activity android:name=".StarterPageActivity" />
+        <activity android:name=".SelectPlaylistActivity"/>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
