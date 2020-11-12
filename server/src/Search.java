@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 /**
@@ -55,6 +56,43 @@ public class Search extends HttpServlet {
 
 		DatabaseReference ref = database.getReference("users");
 		
+		
+		ref.addChildEventListener(new ChildEventListener() {
+
+			@Override
+			public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
+				UserObject u = snapshot.getValue(UserObject.class);
+				if(u.getIsSearching()) {
+					System.out.println(u.getIsSearching());
+				}
+				
+			}
+
+			@Override
+			public void onChildRemoved(DataSnapshot snapshot) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onCancelled(DatabaseError error) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 	}
 
 	/**
