@@ -11,13 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,7 +21,6 @@ public class SelectPlaylistActivity extends AppCompatActivity {
     ListView mListView;
     ArrayList<Playlist> list = new ArrayList<>();
     Playlist[] playlists;
-    boolean initialEvent = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
