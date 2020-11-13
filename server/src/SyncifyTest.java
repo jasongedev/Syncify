@@ -15,9 +15,9 @@ public class SyncifyTest {
 	}
 	
 	public void addUsersTest() {
-		UserObject user1 = new UserObject("a", 0.1, false);
-		UserObject user2 = new UserObject("b", 0.2, false);
-		UserObject user3 = new UserObject("c", 0.3, false);
+		UserObject user1 = new UserObject("a", 0.1, false,false,"");
+		UserObject user2 = new UserObject("b", 0.2, false,false,"");
+		UserObject user3 = new UserObject("c", 0.3, false,false,"");
 		
 		//Map<String, UserObject> userMap1 = new HashMap<String, UserObject>();
 		

@@ -34,15 +34,14 @@ public class HostActivity extends MusicPlayerActivity {
         //
     }
     void broadCastPlay(String songName, String songArtist, String songURI){
-        //User user = new User();
-        //user.playingState = "play";
+        DatabaseReference rootRef = FirebaseDatabase.getInstance("https://syncify-bf9e2.firebaseio.com/").getReference();
+        rootRef.child("users").child(Session.user.getKey()).child("isPlaying").setValue(true);
     }
     void broadCastPause(){
-        //User user = new User();
-        //user.playingState = "pause";
+        DatabaseReference rootRef = FirebaseDatabase.getInstance("https://syncify-bf9e2.firebaseio.com/").getReference();
+        rootRef.child("users").child(Session.user.getKey()).child("isPlaying").setValue(false);
     }
     void broadCastResume(){
-        //User user = new User();
-        //user.playingState = "resume";
-    }
+        DatabaseReference rootRef = FirebaseDatabase.getInstance("https://syncify-bf9e2.firebaseio.com/").getReference();
+        rootRef.child("users").child(Session.user.getKey()).child("isPlaying").setValue(true);
 }
