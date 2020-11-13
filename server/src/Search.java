@@ -69,7 +69,36 @@ public class Search extends HttpServlet {
 			public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
 				UserObject u = snapshot.getValue(UserObject.class);
 				if(u.getIsSearching()) {
-					System.out.println(u.getIsSearching());
+					String nameQuery = u.getSearchName();
+					Query q = database.getInstance().getReference("users").orderByChild("name").equalTo(nameQuery);
+					q.addListenerForSingleValueEvent(new ValueEventListener() {
+
+						@Override
+						public void onDataChange(DataSnapshot snapshot) {
+							ArrayList<UserObject> searchResults = new ArrayList<UserObject>();
+							if(snapshot.exists()) {
+								for(DataSnapshot d: snapshot.getChildren()) {
+									UserObject res = d.getValue(UserObject.class);
+									searchResults.add(res);
+									
+								}
+							}
+							for(UserObject u: searchResults) {
+								System.out.println(u.getName() + " " + u.getTimestamp());
+							}
+							
+						}
+
+						@Override
+						public void onCancelled(DatabaseError error) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+					}
+					
+					
+					);
 				}
 				
 			}
