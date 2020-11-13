@@ -4,22 +4,32 @@ public class UserObject {
 	public Double timestamp;
 	public Boolean isPlaying;
 	public Boolean isSearching;
+	public String searchName;
 	
 	public UserObject() {
 	
 	}
 	
-	public UserObject(String name, double timestamp, boolean isPlaying, boolean isSearching) {
+	public UserObject(String name, double timestamp, boolean isPlaying, boolean isSearching, String searchName) {
 		// TODO Auto-generated constructor stub
 		this.name = name;
 		this.timestamp = timestamp;
 		this.isPlaying = isPlaying;
 		this.isSearching = isSearching;
+		this.searchName = searchName;
 		
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	public String getSearchName() {
+		return searchName;
+	}
+
+	public void setSearchName(String searchName) {
+		this.searchName = searchName;
 	}
 
 	public void setName(String name) {
