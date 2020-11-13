@@ -18,7 +18,7 @@ public class User {
     public String userQuery = "none";
     public ArrayList<String> listeners;
     public ArrayList<Playlist> playlists;
-    public ArrayList<User> searchedUsers;
+    public ArrayList<String> searchedUsers;
 
     public User() {
         isGuest = true;
