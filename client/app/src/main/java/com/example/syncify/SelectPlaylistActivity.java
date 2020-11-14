@@ -13,14 +13,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class SelectPlaylistActivity extends AppCompatActivity {
 
     ListView mListView;
-    ArrayList<Playlist> list = new ArrayList<>();
+    List<Playlist> list = new ArrayList<>();
     Playlist[] playlists;
+    ChildEventListener listener;
+    final long waitTime = 3500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +31,36 @@ public class SelectPlaylistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_playlist);
 
         Session.user.child("getPlaylists").setValue(true);
-        ChildEventListener listener = new ChildEventListener() {
+        listenToPlaylistField();
+        createPlaylistArray();
+
+        /*TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                List<Playlist> lists = new ArrayList<>();
+                Playlist play1 = new Playlist();
+                play1.name = "my name";
+                play1.imageUrl = "my url";
+                play1.uri = "my uri";
+
+                Playlist play2 = new Playlist();
+                play2.name = "the name";
+                play2.imageUrl = "the url";
+                play2.uri = "the uri";
+
+                lists.add(play1);
+                lists.add(play2);
+
+                Session.user.child("playlists").setValue(lists);
+            }
+        };
+
+        Timer myTimer = new Timer();
+        myTimer.schedule(task, 100);*/
+    }
+
+    public void listenToPlaylistField() {
+        listener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Playlist playlist = snapshot.getValue(Playlist.class);
@@ -61,53 +93,29 @@ public class SelectPlaylistActivity extends AppCompatActivity {
         };
 
         Session.user.child("playlists").addChildEventListener(listener);
+    }
 
-        /*TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                List<Playlist> lists = new ArrayList<>();
-                Playlist play1 = new Playlist();
-                play1.name = "my name";
-                play1.imageUrl = "my url";
-                play1.uri = "my uri";
-
-                Playlist play2 = new Playlist();
-                play2.name = "the name";
-                play2.imageUrl = "the url";
-                play2.uri = "the uri";
-
-                lists.add(play1);
-                lists.add(play2);
-
-                Session.user.child("playlists").setValue(lists);
-            }
-        };
-
-        Timer myTimer = new Timer();
-        myTimer.schedule(task, 100);*/
-
-
+    public void createPlaylistArray() {
         TimerTask removeListener = new TimerTask() {
             @Override
             public void run() {
                 Session.user.child("playlists").removeEventListener(listener);
-                playlists = new Playlist[list.size()];
-
-                for (int i = 0; i < list.size(); i++) {
-                    playlists[i] = list.get(i);
-                }
+                playlists = convertListToArray(list);
             }
         };
 
         Timer timer = new Timer();
-        timer.schedule(removeListener, 3500);
-
-
+        timer.schedule(removeListener, waitTime);
     }
 
-    public Playlist[] getPlaylists() {
+    private Playlist[] convertListToArray(List<Playlist> pList) {
+        Playlist[] arr = new Playlist[pList.size()];
 
-        return null;
+        for (int i = 0; i < pList.size(); i++) {
+            arr[i] = pList.get(i);
+        }
+
+        return arr;
     }
 
     void generateList(Playlist[] playlists) {
