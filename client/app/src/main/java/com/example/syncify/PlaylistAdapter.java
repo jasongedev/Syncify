@@ -43,7 +43,7 @@ public class PlaylistAdapter extends ArrayAdapter<Playlist> {
                     R.layout.list_item_playlist, parent, false);
         }
 
-        // TODO: get views in the playlist list item and set their info
+        // TODO: uncomment and fix once layout files are ready
 //        TextView name = convertView.findViewById(R.id.);
 //        ImageView image = convertView.findViewById(R.id.);
 //        name.setText(playlist.name);

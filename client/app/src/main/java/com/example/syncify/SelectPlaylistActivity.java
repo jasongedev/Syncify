@@ -103,7 +103,7 @@ public class SelectPlaylistActivity extends AppCompatActivity {
             public void run() {
                 Session.user.child("playlists").removeEventListener(listener);
                 playlists = convertListToArray(list);
-                runOnUiThread(() -> populateListView(playlists));
+                //runOnUiThread(() -> populateListView(playlists)); TODO: uncomment once layout file is ready
             }
         };
 
@@ -123,6 +123,6 @@ public class SelectPlaylistActivity extends AppCompatActivity {
 
     private void  populateListView(Playlist[] playlists) {
         PlaylistAdapter adapter = new PlaylistAdapter(this, playlists);
-         mListView.setAdapter(adapter);
+        mListView.setAdapter(adapter);
     }
 }
