@@ -30,6 +30,8 @@ public class SelectPlaylistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_playlist);
 
+        // TODO: Set listview to equal listview in layout
+        //mListView = findViewById(R.id.);
         Session.user.child("getPlaylists").setValue(true);
         listenToPlaylistField();
         createPlaylistArray();
@@ -101,6 +103,7 @@ public class SelectPlaylistActivity extends AppCompatActivity {
             public void run() {
                 Session.user.child("playlists").removeEventListener(listener);
                 playlists = convertListToArray(list);
+                runOnUiThread(() -> populateListView(playlists));
             }
         };
 
@@ -118,7 +121,8 @@ public class SelectPlaylistActivity extends AppCompatActivity {
         return arr;
     }
 
-    void generateList(Playlist[] playlists) {
-
+    private void  populateListView(Playlist[] playlists) {
+        PlaylistAdapter adapter = new PlaylistAdapter(this, playlists);
+         mListView.setAdapter(adapter);
     }
 }
