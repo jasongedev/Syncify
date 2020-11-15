@@ -1,23 +1,18 @@
 package com.example.syncify;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
-import com.google.firebase.database.*;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.PlayerApi;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
-import com.spotify.protocol.client.CallResult;
 import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -114,9 +109,12 @@ public class HostActivity extends MusicPlayerActivity {
 
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Log.e("HostActivity", throwable.getMessage(), throwable);
-
                         // Something went wrong when attempting to connect! Handle errors here
+                        Log.e("HostActivity", throwable.getMessage(), throwable);
+                        Toast toast = Toast.makeText(getApplicationContext(), "Could not connect", Toast.LENGTH_SHORT);
+                        toast.show();
+                        Session.user.child("isHosting").setValue(false);
+                        HostActivity.super.onBackPressed();
                     }
                 });
     }
