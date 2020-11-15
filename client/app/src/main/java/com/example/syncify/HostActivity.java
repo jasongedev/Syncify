@@ -1,6 +1,8 @@
 package com.example.syncify;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,7 @@ import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.PlayerApi;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 import com.spotify.protocol.client.CallResult;
+import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
 
@@ -20,9 +23,9 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class HostActivity extends MusicPlayerActivity {
-    SpotifyAppRemote mSpotifyAppRemote;
-    PlayerApi playerApi;
-    private DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+    private SpotifyAppRemote mSpotifyAppRemote;
+    private PlayerApi playerApi;
+    private Subscription<PlayerState> mSub;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,41 +35,64 @@ public class HostActivity extends MusicPlayerActivity {
     }
 
     void play(){
-        //
+        String playlistURI = getIntent().getStringExtra("PlaylistUri");
+        playerApi.play(playlistURI).setResultCallback(empty -> {
+            playerApi.seekTo(0);
+            broadCastPlay();});
+        ScheduledExecutorService exec = new ScheduledThreadPoolExecutor(1);
+        exec.scheduleAtFixedRate(new TimeStampUpdate(), 1, 1, TimeUnit.SECONDS);
     }
     public void resume(View v){
-        //
+        playerApi.resume();
     }
     public void pause(View v){
-        //
+        playerApi.pause();
     }
     public void skipNext(View v){
-        //
+        playerApi.skipNext();
     }
     public void skipPrev(View v){
-        //
+        playerApi.skipPrevious();
     }
     public void closeRoom(View v){
-        //
+        Session.user.child("isHosting").setValue(false);
+        playerApi.pause();
+        mSub.cancel();
+        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+        clearSongInfo();
+        super.onBackPressed();
     }
     void broadCastPlay(){
         playerApi.getPlayerState()
                 .setResultCallback(playerState -> {
-                    Track mTrack = playerState.track;
-                    Session.user.child("songName").setValue(mTrack.name);
-                    Session.user.child("songArtist").setValue(mTrack.artist.name);
-                    Session.user.child("songUri").setValue(mTrack.uri);
-                    Session.user.child("timestamp").setValue(0);
+                    updateSongInfo(playerState.track);
                 })
                 .setErrorCallback(throwable -> {Log.e("HostActivity", throwable.getMessage(), throwable);});
+        mSub = playerApi.subscribeToPlayerState().setEventCallback(playerState -> {
+            if(playerState.track != null){
+                updateSongInfo(playerState.track);
+            }
+            if(playerState.isPaused){
+                Session.user.child("isPlaying").setValue(false);
+            }
+            else{
+                Session.user.child("isPlaying").setValue(true);
+            }
+        });
     }
-    void broadCastPause(){
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        rootRef.child("users").child(Session.user.getKey()).child("isPlaying").setValue(false);
+
+    void updateSongInfo(Track mTrack){
+        Session.user.child("songName").setValue(mTrack.name);
+        Session.user.child("songArtist").setValue(mTrack.artist.name);
+        Session.user.child("songUri").setValue(mTrack.uri);
     }
-    void broadCastResume() {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        rootRef.child("users").child(Session.user.getKey()).child("isPlaying").setValue(true);
+
+    void clearSongInfo(){
+        Session.user.child("songName").setValue(null);
+        Session.user.child("songArtist").setValue(null);
+        Session.user.child("songUri").setValue(null);
+        Session.user.child("isPlaying").setValue(false);
+        Session.user.child("timestamp").setValue(0);
     }
 
     void connectAppRemote() {
@@ -83,10 +109,7 @@ public class HostActivity extends MusicPlayerActivity {
                     public void onConnected(SpotifyAppRemote spotifyAppRemote) {
                         mSpotifyAppRemote = spotifyAppRemote;
                         playerApi = mSpotifyAppRemote.getPlayerApi();
-                        String playlistURI = getIntent().getStringExtra("PlaylistUri");
-                        playerApi.play(playlistURI).setResultCallback(empty -> broadCastPlay());
-                        ScheduledExecutorService exec = new ScheduledThreadPoolExecutor(1);
-                        exec.scheduleAtFixedRate(new TimeStampUpdate(), 1, 1, TimeUnit.SECONDS);
+                        play();
                     }
 
                     @Override
@@ -106,5 +129,11 @@ public class HostActivity extends MusicPlayerActivity {
                     })
                     .setErrorCallback(throwable -> {Log.e("HostActivity", throwable.getMessage(), throwable);});
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        closeRoom(new View(this));
     }
 }
