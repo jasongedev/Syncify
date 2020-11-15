@@ -163,6 +163,7 @@ public class LoginActivity extends AppCompatActivity {
         Session.user = users.push();
         Session.user.setValue(thisUser);
         Session.key = Session.user.getKey();
+        Session.user.child("key").setValue(Session.user.getKey());
         Log.d("Key", Session.key);
     }
 }
