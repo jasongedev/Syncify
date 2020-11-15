@@ -5,17 +5,17 @@ import java.util.ArrayList;
 public class User {
     public String key;
     public boolean isGuest;
-    public String name = "";
+    public String name;
     public String accessToken;
-    public boolean isPlaying;
+    public boolean isHosting;
+    public boolean isPlaying; // resume or pause
     public long timestamp;
-    public String playingState = "none"; // resume or pause
-    public String songName = "none";
-    public String songArtist = "none";
-    public String songUri = "none";
+    public String songName;
+    public String songArtist;
+    public String songUri;
     public boolean getPlaylists;
     public boolean getUsers;
-    public String userQuery = "none";
+    public String userQuery;
     public ArrayList<String> listeners;
     public ArrayList<Playlist> playlists;
     public ArrayList<String> searchedUsers;
