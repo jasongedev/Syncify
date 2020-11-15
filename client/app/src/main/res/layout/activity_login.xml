@@ -11,7 +11,8 @@
         android:id="@+id/guestsignin"
         android:layout_width="208dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="72dp"
+        android:fontFamily="@font/roboto_bold"
         android:onClick="loginAsGuest"
         android:text="Use as Guest"
         android:textColor="#3DD598"
@@ -24,45 +25,50 @@
         android:id="@+id/spotifysignin"
         android:layout_width="208dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="88dp"
+        android:fontFamily="@font/roboto_bold"
         android:onClick="loginWithSpotify"
-        android:text="Sign in"
+        android:text="Sign in (with Spotify)"
         app:backgroundTint="@color/lightgreen"
-        app:layout_constraintBottom_toTopOf="@+id/guestsignin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Welcome!"
+        android:layout_width="268dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="88dp"
+        android:text="Welcome to Syncify!"
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="48sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="318dp"
+        android:layout_height="143dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/group_21" />
 
     <TextView
-        android:id="@+id/subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign in to continue"
-        android:textColor="#96A7AF"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/welcome"
-        app:layout_constraintTop_toBottomOf="@+id/welcome" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="64dp"
-        app:cardBackgroundColor="@color/lightgreen"
-        app:cardCornerRadius="16dp"
+        android:id="@+id/textView"
+        android:layout_width="268dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="A way to connect and listen with your friends on Spotify"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/welcome" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

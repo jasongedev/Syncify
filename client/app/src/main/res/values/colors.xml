@@ -7,8 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="background">#22333B</color>
+    <color name="background">#22343C</color>
     <color name="statusBar">#182429</color>
-    <color name="lightgreen">#3FD89A</color>
+    <color name="lightgreen">#40DF9F</color>
     <color name="darkgreen">#286053</color>
+    <color name="redBackground">#602828</color>
+    <color name="redFont">#D53D3D</color>
 </resources>

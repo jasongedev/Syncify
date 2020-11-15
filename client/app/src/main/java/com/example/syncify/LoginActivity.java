@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +39,20 @@ public class LoginActivity extends AppCompatActivity {
         Session.CLIENT_SECRET = getResources().getString(R.string.clientSecret);
         Session.REDIRECT_URI = getResources().getString(R.string.redirectUri);
         scopes = new String[]{"app-remote-control", "user-read-private", "playlist-read-private"};
+
+        Button spotifySignInButton = (Button) findViewById(R.id.spotifysignin);
+        spotifySignInButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                loginWithSpotify(v);
+            }
+        });
+
+        Button guestSignInButton = (Button) findViewById(R.id.guestsignin);
+        spotifySignInButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                loginAsGuest(v);
+            }
+        });
     }
 
     @Override
@@ -166,4 +181,5 @@ public class LoginActivity extends AppCompatActivity {
         Session.user.child("key").setValue(Session.user.getKey());
         Log.d("Key", Session.key);
     }
+
 }
