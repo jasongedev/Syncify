@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 /**
  * Servlet implementation class Search
@@ -31,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 public class Search extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	FirebaseDatabase database;
+	DatabaseReference ref;
+	String userKey;
     
     /**
      * @see HttpServlet#HttpServlet()
@@ -54,7 +57,7 @@ public class Search extends HttpServlet {
 		FirebaseApp app = FirebaseApp.initializeApp(options);
 		database = FirebaseDatabase.getInstance(app);
 
-		DatabaseReference ref = database.getReference("users");
+		ref = database.getReference("users");
 		
 		
 		ref.addChildEventListener(new ChildEventListener() {
@@ -68,25 +71,25 @@ public class Search extends HttpServlet {
 			@Override
 			public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
 				UserObject u = snapshot.getValue(UserObject.class);
-				if(u.getIsSearching()) {
-					String nameQuery = u.getSearchName();
+				userKey = snapshot.getKey();
+				if(u.getGetUsers()) {
+					String nameQuery = u.getUserQuery();
 					Query q = database.getInstance().getReference("users").orderByChild("name").equalTo(nameQuery);
 					q.addListenerForSingleValueEvent(new ValueEventListener() {
 
 						@Override
 						public void onDataChange(DataSnapshot snapshot) {
-							ArrayList<UserObject> searchResults = new ArrayList<UserObject>();
+							ArrayList<String> searchResults = new ArrayList<String>();
 							if(snapshot.exists()) {
 								for(DataSnapshot d: snapshot.getChildren()) {
-									UserObject res = d.getValue(UserObject.class);
-									searchResults.add(res);
+									//UserObject res = d.getValue(UserObject.class);
+									//searchResults.add();
+									searchResults.add(d.getKey());
 									
 								}
 							}
-							for(UserObject u: searchResults) {
-								System.out.println(u.getName() + " " + u.getTimestamp());
-							}
 							
+							ref.child(userKey).child("searchedUsers").setValueAsync(searchResults, null);
 						}
 
 						@Override
@@ -99,6 +102,7 @@ public class Search extends HttpServlet {
 					
 					
 					);
+					ref.child(userKey).child("getUsers").setValueAsync(false);
 				}
 				
 			}
