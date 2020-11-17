@@ -4,6 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
+    android:contentDescription="Logo"
     tools:context=".StarterPageActivity">
 
+    <Button
+        android:id="@+id/Host_Room"
+        android:layout_width="228dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="68dp"
+        android:fontFamily="@font/roboto_bold"
+        android:onClick="HostRoom"
+        android:text="Host Room"
+        app:backgroundTint="@color/lightgreen"
+        app:layout_constraintBottom_toTopOf="@+id/Join_Room"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/Join_Room"
+        android:layout_width="228dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="168dp"
+        android:fontFamily="@font/roboto_bold"
+        android:onClick="JoinRoom"
+        android:text="Join Room"
+        android:textColor="#3DD598"
+        app:backgroundTint="@color/darkgreen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="393dp"
+        android:layout_height="230dp"
+        android:layout_marginTop="108dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/group_23" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="257dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Join_Room"
+        app:srcCompat="@drawable/group_22" />
 </androidx.constraintlayout.widget.ConstraintLayout>
