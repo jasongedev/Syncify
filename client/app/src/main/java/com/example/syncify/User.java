@@ -19,6 +19,7 @@ public class User {
     public ArrayList<String> listeners;
     public ArrayList<Playlist> playlists;
     public ArrayList<String> searchedUsers;
+    public String listeningTo;
 
     public User() {
         isGuest = true;
