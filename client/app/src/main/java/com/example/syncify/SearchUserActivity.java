@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -15,7 +18,6 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.String;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
@@ -34,17 +36,34 @@ public class SearchUserActivity extends AppCompatActivity {
     UserAdapter adapter;
     ListView listView;
 
+    EditText editText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_user);
 
+        //editText = findViewById(R.id); // TODO: find the view
         adapter = new UserAdapter(this, users);
         listView = new ListView(this); // TODO: replace this with findviewbyid
         listView.setAdapter(adapter);
 
         setListener();
 
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String query = editable.toString();
+                userQuery.setValue(query);
+                getUsers.setValue(true);
+            }
+        });
 
         /*ScheduledExecutorService exec = new ScheduledThreadPoolExecutor(1);
         exec.schedule(() -> {
@@ -59,8 +78,7 @@ public class SearchUserActivity extends AppCompatActivity {
         service.scheduleAtFixedRate(() -> {
             User obj = (User) listView.getItemAtPosition(0);
             Log.d("Hello", "Item is: " + obj.name);
-        }, 5, 3, TimeUnit.SECONDS);
-        //String query = "hello there";*/
+        }, 5, 3, TimeUnit.SECONDS);*/
 
 
     }
@@ -118,29 +136,4 @@ public class SearchUserActivity extends AppCompatActivity {
         super.onBackPressed();
         removeListener();
     }
-
-//    public String[] getResults(String searchID) // want to show users that are hosting a room at the current moment
-//    {
-//        searchInput = searchID;
-//        mref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot snapshot_each : snapshot.getChildren()){
-//                    String name = snapshot_each.getValue(String.class);
-//                    searchResults.insert(name);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//        return searchResults;
-//    }
-
-    /*public void generateList(User[] user_array)
-    {
-
-    }*/
 }
