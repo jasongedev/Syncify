@@ -58,6 +58,7 @@ public class UserObject {
 
 	public void setIsSearching(Boolean isSearching) {
 		this.isSearching = isSearching;
+		
 	}
 	
 }
