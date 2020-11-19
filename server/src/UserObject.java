@@ -1,7 +1,7 @@
 
 public class UserObject {
 	public String name;
-	public Double timestamp;
+	public Long timestamp;
 	public Boolean isPlaying;
 	public String userQuery;
 	public Boolean getUsers;
@@ -10,7 +10,7 @@ public class UserObject {
 	
 	}
 	
-	public UserObject(String name, double timestamp, boolean isPlaying, String userQuery, Boolean getUsers) {
+	public UserObject(String name, Long timestamp, boolean isPlaying, String userQuery, Boolean getUsers) {
 		// TODO Auto-generated constructor stub
 		this.name = name;
 		this.timestamp = timestamp;
@@ -29,11 +29,11 @@ public class UserObject {
 		this.name = name;
 	}
 
-	public Double getTimestamp() {
+	public Long getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(Double timestamp) {
+	public void setTimestamp(Long timestamp) {
 		this.timestamp = timestamp;
 	}
 
