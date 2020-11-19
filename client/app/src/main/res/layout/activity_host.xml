@@ -7,30 +7,16 @@
     android:background="@color/background"
     tools:context=".HostActivity">
 
-    <ImageButton
-        android:id="@+id/pauseButton"
-        android:layout_width="102dp"
-        android:layout_height="70dp"
-        android:layout_marginBottom="76dp"
-        android:adjustViewBounds="true"
-        android:background="@android:color/transparent"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@drawable/pause_icon"
-        tools:layout_editor_absoluteX="154dp" />
-
     <TextView
         android:id="@+id/songText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:fontFamily="@font/roboto_italic"
         android:text="Song by Arist"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/currentlyPlayingText" />
 
@@ -38,59 +24,154 @@
         android:id="@+id/hostingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
         android:fontFamily="@font/roboto_bold"
         android:text="HOSTING A ROOM"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/currentlyPlayingText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.024"
-        android:layout_marginTop="40dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/currentlyPlayingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/roboto"
         android:text="Currently Playing: "
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="18sp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toTopOf="@id/songText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hostingText" />
+        app:layout_constraintTop_toBottomOf="@+id/hostingText" />
 
     <ImageButton
-        android:id="@+id/reverseButton"
-        android:layout_width="86dp"
-        android:layout_height="55dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="76dp"
+        android:id="@+id/prevButton"
+        android:layout_width="65dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="88dp"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
+        android:onClick="skipPrev"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/pauseButton"
+        app:layout_constraintHorizontal_bias="0.793"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/reverse_icon" />
 
     <ImageButton
-        android:id="@+id/seekButton"
-        android:layout_width="86dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="80dp"
+        android:id="@+id/nextButton"
+        android:layout_width="65dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="88dp"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
+        android:onClick="skipNext"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.034"
+        app:layout_constraintHorizontal_bias="0.178"
         app:layout_constraintStart_toEndOf="@+id/pauseButton"
         app:srcCompat="@drawable/seek_icon" />
+
+    <ImageButton
+        android:id="@+id/pauseButton"
+        android:layout_width="110dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="88dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:onClick="togglePause"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/pause_icon" />
+
+    <ImageView
+        android:id="@+id/listenerBlock"
+        android:layout_width="182dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="28dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/songText"
+        app:srcCompat="@drawable/listener_background_block" />
+
+    <TextView
+        android:id="@+id/listenerCount"
+        android:layout_width="9dp"
+        android:layout_height="20dp"
+        android:fontFamily="@font/roboto"
+        android:text="0"
+        android:textAlignment="center"
+        android:textColor="@color/lightgreen"
+        app:layout_constraintBottom_toBottomOf="@+id/listenerBlock"
+        app:layout_constraintEnd_toEndOf="@+id/listenerBlock"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toEndOf="@+id/listenerText"
+        app:layout_constraintTop_toTopOf="@+id/listenerBlock" />
+
+    <TextView
+        android:id="@+id/listenerText"
+        android:layout_width="78dp"
+        android:layout_height="20dp"
+        android:fontFamily="@font/roboto"
+        android:text="LISTENERS:"
+        android:textAlignment="center"
+        android:textColor="@color/lightgreen"
+        app:layout_constraintBottom_toBottomOf="@+id/listenerBlock"
+        app:layout_constraintEnd_toEndOf="@+id/listenerBlock"
+        app:layout_constraintHorizontal_bias="0.404"
+        app:layout_constraintStart_toStartOf="@+id/listenerBlock"
+        app:layout_constraintTop_toTopOf="@+id/listenerBlock" />
+
+    <ProgressBar
+        android:id="@+id/trackProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="350dp"
+        android:layout_height="15dp"
+        android:layout_marginBottom="20dp"
+        android:indeterminateTint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/pauseButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/cancelButton"
+        android:layout_width="182dp"
+        android:layout_height="27dp"
+        android:layout_marginBottom="24dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:onClick="closeRoom"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/trackProgress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/cancel_background_block" />
+
+    <TextView
+        android:id="@+id/cancelText"
+        android:layout_width="107dp"
+        android:layout_height="23dp"
+        android:text="CANCEL ROOM"
+        android:textAlignment="center"
+        android:textColor="@color/redFont"
+        app:layout_constraintBottom_toBottomOf="@+id/cancelButton"
+        app:layout_constraintEnd_toEndOf="@+id/cancelButton"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="@+id/cancelButton"
+        app:layout_constraintTop_toTopOf="@+id/cancelButton"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
