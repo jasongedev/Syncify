@@ -23,6 +23,7 @@ public class HostActivity extends MusicPlayerActivity {
     private PlayerApi playerApi;
     private Subscription<PlayerState> mSub;
     private ProgressBar progressBar;
+    private boolean isPaused;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +40,18 @@ public class HostActivity extends MusicPlayerActivity {
     void play(){
         String playlistURI = getIntent().getStringExtra("PlaylistUri");
         playerApi.play(playlistURI).setResultCallback(empty -> {
+            isPaused = false;
             playerApi.seekTo(0);
             broadCastPlay();});
         ScheduledExecutorService exec = new ScheduledThreadPoolExecutor(1);
         exec.scheduleAtFixedRate(new TimeStampUpdate(), 1, 1, TimeUnit.SECONDS);
     }
-    public void resume(View v){
-        playerApi.resume();
-    }
-    public void pause(View v){
-        playerApi.pause();
+    public void togglePause(View v){
+        if (isPaused) {
+            playerApi.resume();
+        } else {
+            playerApi.pause();
+        }
     }
     public void skipNext(View v){
         playerApi.skipNext();
