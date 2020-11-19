@@ -48,6 +48,7 @@ public class HostActivity extends MusicPlayerActivity {
     }
     public void skipPrev(View v){
         playerApi.skipPrevious();
+        playerApi.getPlayerState().setResultCallback(playerState -> updateSongInfo(playerState.track));
     }
     public void closeRoom(View v){
         Session.user.child("isHosting").setValue(false);
@@ -59,10 +60,8 @@ public class HostActivity extends MusicPlayerActivity {
     }
     void broadCastPlay(){
         playerApi.getPlayerState()
-                .setResultCallback(playerState -> {
-                    updateSongInfo(playerState.track);
-                })
-                .setErrorCallback(throwable -> {Log.e("HostActivity", throwable.getMessage(), throwable);});
+                .setResultCallback(playerState -> updateSongInfo(playerState.track))
+                .setErrorCallback(throwable -> Log.e("HostActivity", throwable.getMessage(), throwable));
         mSub = playerApi.subscribeToPlayerState().setEventCallback(playerState -> {
             if(playerState.track != null){
                 updateSongInfo(playerState.track);
@@ -122,10 +121,8 @@ public class HostActivity extends MusicPlayerActivity {
         @Override
         public void run() {
             playerApi.getPlayerState()
-                    .setResultCallback(playerState -> {
-                        Session.user.child("timestamp").setValue(playerState.playbackPosition);
-                    })
-                    .setErrorCallback(throwable -> {Log.e("HostActivity", throwable.getMessage(), throwable);});
+                    .setResultCallback(playerState -> Session.user.child("timestamp").setValue(playerState.playbackPosition))
+                    .setErrorCallback(throwable -> Log.e("HostActivity", throwable.getMessage(), throwable));
         }
     }
 
