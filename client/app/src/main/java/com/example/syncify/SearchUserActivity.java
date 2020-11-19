@@ -19,7 +19,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.String;
 import java.util.List;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 public class SearchUserActivity extends AppCompatActivity {
     DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
@@ -37,20 +40,23 @@ public class SearchUserActivity extends AppCompatActivity {
     ListView listView;
 
     EditText editText;
+    boolean prepSearch;
+    long searchDelay = 1;
+    ScheduledExecutorService searchExec = new ScheduledThreadPoolExecutor(1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_user);
-
-        //editText = findViewById(R.id); // TODO: find the view
+        //editText = findViewById(R.id.edit); // TODO: find the view
         adapter = new UserAdapter(this, users);
         listView = new ListView(this); // TODO: replace this with findviewbyid
         listView.setAdapter(adapter);
 
         setListener();
 
-        editText.addTextChangedListener(new TextWatcher() {
+        // TODO: uncomment eventually
+        /*editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
@@ -59,11 +65,17 @@ public class SearchUserActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String query = editable.toString();
-                userQuery.setValue(query);
-                getUsers.setValue(true);
+                if (!prepSearch) {
+                    prepSearch = true;
+                    searchExec.schedule(() -> {
+                        String query = editable.toString();
+                        userQuery.setValue(query);
+                        getUsers.setValue(true);
+                        prepSearch = false;
+                    }, searchDelay, TimeUnit.SECONDS);
+                }
             }
-        });
+        });*/
 
         /*ScheduledExecutorService exec = new ScheduledThreadPoolExecutor(1);
         exec.schedule(() -> {
@@ -80,6 +92,12 @@ public class SearchUserActivity extends AppCompatActivity {
             Log.d("Hello", "Item is: " + obj.name);
         }, 5, 3, TimeUnit.SECONDS);*/
 
+        /*
+        ScheduledExecutorService service = new ScheduledThreadPoolExecutor(1);
+        service.schedule(() -> {
+            userQuery.setValue("a");
+            getUsers.setValue(true);
+        }, 10, TimeUnit.SECONDS);*/
 
     }
 
