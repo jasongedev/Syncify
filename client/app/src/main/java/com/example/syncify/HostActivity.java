@@ -25,6 +25,7 @@ public class HostActivity extends MusicPlayerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host);
+        songInfoView = findViewById(R.id.songText);
         Session.user.child("isHosting").setValue(true);
         connectAppRemote();
     }
@@ -66,19 +67,21 @@ public class HostActivity extends MusicPlayerActivity {
             if(playerState.track != null){
                 updateSongInfo(playerState.track);
             }
-            if(playerState.isPaused){
-                Session.user.child("isPlaying").setValue(false);
-            }
-            else{
-                Session.user.child("isPlaying").setValue(true);
-            }
+            Session.user.child("isPlaying").setValue(!playerState.isPaused);
         });
     }
 
-    void updateSongInfo(Track mTrack){
-        Session.user.child("songName").setValue(mTrack.name);
-        Session.user.child("songArtist").setValue(mTrack.artist.name);
-        Session.user.child("songUri").setValue(mTrack.uri);
+    void updateSongInfo(Track track){
+        String songInfo;
+        if (track.artist.name == null) {
+            songInfo = "Advertisement";
+        } else {
+            songInfo = track.name + " by " + track.artist.name;
+        }
+        songInfoView.setText(songInfo);
+        Session.user.child("songName").setValue(track.name);
+        Session.user.child("songArtist").setValue(track.artist.name);
+        Session.user.child("songUri").setValue(track.uri);
     }
 
     void clearSongInfo(){
