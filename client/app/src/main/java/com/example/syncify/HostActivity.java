@@ -3,6 +3,7 @@ package com.example.syncify;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.spotify.android.appremote.api.ConnectionParams;
@@ -21,10 +22,15 @@ public class HostActivity extends MusicPlayerActivity {
     private SpotifyAppRemote mSpotifyAppRemote;
     private PlayerApi playerApi;
     private Subscription<PlayerState> mSub;
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host);
+
+        //progressBar = findViewById(R.id.);
+        //progressBar.setMin(0);
         songInfoView = findViewById(R.id.songText);
         Session.user.child("isHosting").setValue(true);
         connectAppRemote();
@@ -66,6 +72,8 @@ public class HostActivity extends MusicPlayerActivity {
         mSub = playerApi.subscribeToPlayerState().setEventCallback(playerState -> {
             if(playerState.track != null){
                 updateSongInfo(playerState.track);
+                //progressBar.setMax((int) playerState.track.duration);
+                //progressBar.setProgress((int) playerState.playbackPosition, true);
             }
             Session.user.child("isPlaying").setValue(!playerState.isPaused);
         });
@@ -124,7 +132,10 @@ public class HostActivity extends MusicPlayerActivity {
         @Override
         public void run() {
             playerApi.getPlayerState()
-                    .setResultCallback(playerState -> Session.user.child("timestamp").setValue(playerState.playbackPosition))
+                    .setResultCallback(playerState -> {
+                        //progressBar.setProgress((int) playerState.playbackPosition);
+                        Session.user.child("timestamp").setValue(playerState.playbackPosition);
+                    })
                     .setErrorCallback(throwable -> Log.e("HostActivity", throwable.getMessage(), throwable));
         }
     }
