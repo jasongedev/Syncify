@@ -30,6 +30,7 @@ public class ListenerActivity extends  MusicPlayerActivity {
     private SpotifyAppRemote mSpotifyAppRemote;
     private PlayerApi playerApi;
     private Subscription<PlayerState> mSub;
+    private boolean firstSong = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +103,10 @@ public class ListenerActivity extends  MusicPlayerActivity {
                     return;
                 }
                 playerApi.play(snapshot.getValue(String.class)).setResultCallback(empty -> {
-                    playerApi.pause();
+                    if (firstSong) {
+                        firstSong = false;
+                        playerApi.pause();
+                    }
                     setTimestamp();
                     setPlayingListener();
                 });
