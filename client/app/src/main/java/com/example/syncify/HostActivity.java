@@ -44,8 +44,8 @@ public class HostActivity extends MusicPlayerActivity {
         songInfoView = findViewById(R.id.songText);
         listenerCount = findViewById(R.id.listenerCount);
 
-        //progressBar = findViewById(R.id.);
-        //progressBar.setMin(0);
+        progressBar = findViewById(R.id.trackProgress);
+        progressBar.setMin(0);
         Session.user.child("isHosting").setValue(true);
         connectAppRemote();
         trackListenerNum();
@@ -97,8 +97,8 @@ public class HostActivity extends MusicPlayerActivity {
         mSub = playerApi.subscribeToPlayerState().setEventCallback(playerState -> {
             if(playerState.track != null){
                 updateSongInfo(playerState.track);
-                //progressBar.setMax((int) playerState.track.duration);
-                //progressBar.setProgress((int) playerState.playbackPosition, true);
+                progressBar.setMax((int) playerState.track.duration);
+                progressBar.setProgress((int) playerState.playbackPosition, true);
             }
             Session.user.child("isPlaying").setValue(!playerState.isPaused);
         });
@@ -176,7 +176,7 @@ public class HostActivity extends MusicPlayerActivity {
         public void run() {
             playerApi.getPlayerState()
                     .setResultCallback(playerState -> {
-                        //progressBar.setProgress((int) playerState.playbackPosition);
+                        progressBar.setProgress((int) playerState.playbackPosition);
                         Session.user.child("timestamp").setValue(playerState.playbackPosition);
                     })
                     .setErrorCallback(throwable -> Log.e("HostActivity", throwable.getMessage(), throwable));
