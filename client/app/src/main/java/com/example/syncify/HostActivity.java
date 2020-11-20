@@ -80,9 +80,13 @@ public class HostActivity extends MusicPlayerActivity {
         toggleSoundBarAnim(true);
     }
     public void skipPrev(View v){
-        playerApi.skipPrevious();
-        toggleSoundBarAnim(true);
-        playerApi.getPlayerState().setResultCallback(playerState -> updateSongInfo(playerState.track));
+        mSpotifyAppRemote.getUserApi().getCapabilities().setResultCallback(capabilities -> {
+            if (capabilities.canPlayOnDemand) {
+                playerApi.skipPrevious();
+                toggleSoundBarAnim(true);
+                playerApi.getPlayerState().setResultCallback(playerState -> updateSongInfo(playerState.track));
+            }
+        });
     }
     public void closeRoom(View v){
         Session.user.child("isHosting").setValue(false);
@@ -182,6 +186,7 @@ public class HostActivity extends MusicPlayerActivity {
         long secs = (milli % 60000) / 1000;
         return String.format(Locale.US, "%2d:%02d", mins, secs);
     }
+
     private class TimeStampUpdate implements Runnable{
         @Override
         public void run() {

@@ -20,6 +20,7 @@ import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.Empty;
 import com.spotify.protocol.types.PlayerState;
 
+import java.util.Locale;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -35,6 +36,8 @@ public class ListenerActivity extends  MusicPlayerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listener);
 
+        trackStart = findViewById(R.id.trackStart);
+        trackEnd = findViewById(R.id.trackEnd);
         progressBar = findViewById(R.id.trackProgress);
         progressBar.setMin(0);
 
@@ -107,17 +110,21 @@ public class ListenerActivity extends  MusicPlayerActivity {
 
                 toggleSoundBarAnim(false);
 
-                playerApi.subscribeToPlayerState().setEventCallback(playerState -> {
+                mSub = playerApi.subscribeToPlayerState().setEventCallback(playerState -> {
                     songInfoView = findViewById(R.id.songText);
                     String trackInfo = playerState.track.name + " by " + playerState.track.artist.name;
                     songInfoView.setText(trackInfo);
                     progressBar.setMax((int) playerState.track.duration);
                     progressBar.setProgress((int) playerState.playbackPosition, true);
+                    trackEnd.setText(milliToTime(playerState.track.duration));
                 });
 
                 ScheduledExecutorService service = new ScheduledThreadPoolExecutor(1);
                 service.scheduleAtFixedRate(() -> playerApi.getPlayerState()
-                        .setResultCallback(playerState -> progressBar.setProgress((int) playerState.playbackPosition))
+                        .setResultCallback(playerState -> {
+                            progressBar.setProgress((int) playerState.playbackPosition);
+                            trackStart.setText(milliToTime(playerState.playbackPosition));
+                        })
                         .setErrorCallback(throwable -> Log.e("ListenerActivity",
                                 throwable.getMessage(), throwable)), 1, 1, TimeUnit.SECONDS);
             }
@@ -164,6 +171,12 @@ public class ListenerActivity extends  MusicPlayerActivity {
 
             }
         });
+    }
+
+    String milliToTime(long milli) {
+        long mins = milli / 60000;
+        long secs = (milli % 60000) / 1000;
+        return String.format(Locale.US, "%2d:%02d", mins, secs);
     }
 
     public void exitRoom(View v){
