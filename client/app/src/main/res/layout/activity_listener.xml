@@ -96,6 +96,7 @@
         android:layout_marginBottom="36dp"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
+        android:onClick="exitRoom"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/trackProgress"
         app:layout_constraintEnd_toEndOf="parent"
