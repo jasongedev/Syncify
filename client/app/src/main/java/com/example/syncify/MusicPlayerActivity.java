@@ -7,6 +7,7 @@ import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -17,6 +18,7 @@ public abstract class MusicPlayerActivity extends AppCompatActivity {
     ObjectAnimator[] soundbarAnims;
     private final float minScaleY = 0.1f;
     private final float maxScaleY = 1.4f;
+    protected ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

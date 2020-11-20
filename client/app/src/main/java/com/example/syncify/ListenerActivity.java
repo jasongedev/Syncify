@@ -20,6 +20,10 @@ import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.Empty;
 import com.spotify.protocol.types.PlayerState;
 
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 public class ListenerActivity extends  MusicPlayerActivity {
 
     private SpotifyAppRemote mSpotifyAppRemote;
@@ -30,6 +34,10 @@ public class ListenerActivity extends  MusicPlayerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listener);
+
+        progressBar = findViewById(R.id.trackProgress);
+        progressBar.setMin(0);
+
         connectAppRemote();
         startSoundBarAnim();
 
@@ -91,17 +99,27 @@ public class ListenerActivity extends  MusicPlayerActivity {
                     return;
                 }
                 playerApi.play(snapshot.getValue(String.class)).setResultCallback(empty -> {
+                    playerApi.pause();
                     setTimestamp();
                     setPlayingListener();
                 });
 
-                playerApi.pause();
+
+                toggleSoundBarAnim(false);
 
                 playerApi.subscribeToPlayerState().setEventCallback(playerState -> {
                     songInfoView = findViewById(R.id.songText);
                     String trackInfo = playerState.track.name + " by " + playerState.track.artist.name;
                     songInfoView.setText(trackInfo);
+                    progressBar.setMax((int) playerState.track.duration);
+                    progressBar.setProgress((int) playerState.playbackPosition, true);
                 });
+
+                ScheduledExecutorService service = new ScheduledThreadPoolExecutor(1);
+                service.scheduleAtFixedRate(() -> playerApi.getPlayerState()
+                        .setResultCallback(playerState -> progressBar.setProgress((int) playerState.playbackPosition))
+                        .setErrorCallback(throwable -> Log.e("ListenerActivity",
+                                throwable.getMessage(), throwable)), 1, 1, TimeUnit.SECONDS);
             }
 
             @Override

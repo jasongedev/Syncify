@@ -31,7 +31,6 @@ public class HostActivity extends MusicPlayerActivity {
     private SpotifyAppRemote mSpotifyAppRemote;
     private PlayerApi playerApi;
     private Subscription<PlayerState> mSub;
-    private ProgressBar progressBar;
     private boolean isPaused;
     private ValueEventListener trackListener;
     private ScheduledExecutorService timeStampUpdater;
@@ -75,9 +74,11 @@ public class HostActivity extends MusicPlayerActivity {
     }
     public void skipNext(View v){
         playerApi.skipNext();
+        toggleSoundBarAnim(true);
     }
     public void skipPrev(View v){
         playerApi.skipPrevious();
+        toggleSoundBarAnim(true);
         playerApi.getPlayerState().setResultCallback(playerState -> updateSongInfo(playerState.track));
     }
     public void closeRoom(View v){
