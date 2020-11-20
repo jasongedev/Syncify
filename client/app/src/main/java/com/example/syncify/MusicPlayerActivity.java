@@ -15,18 +15,19 @@ public abstract class MusicPlayerActivity extends AppCompatActivity {
     TextView songInfoView;
     TextView listenerCount;
     ObjectAnimator[] soundbarAnims;
-    private float minScaleY = 10;
-    private float maxScaleY = 100;
+    private final float minScaleY = 0.1f;
+    private final float maxScaleY = 1.4f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    //abstract void connectAppRemote();
-    /*private void startSoundBarAnim() {
+    abstract void connectAppRemote();
+
+    protected void startSoundBarAnim() {
         // create, store, and start the sound bar object animators
-        ViewGroup viewGroup = findViewById(R.id.);
+        ViewGroup viewGroup = findViewById(R.id.soundBarView);
         soundbarAnims = new ObjectAnimator[viewGroup.getChildCount()];
         Random rand = new Random();
 
@@ -59,7 +60,7 @@ public abstract class MusicPlayerActivity extends AppCompatActivity {
         soundbarAnims[idx].setRepeatCount(ValueAnimator.INFINITE);
         soundbarAnims[idx].setRepeatMode(ValueAnimator.REVERSE);
         soundbarAnims[idx].setInterpolator(null);
-        soundbarAnims[idx].setDuration((long) ((new Random().nextFloat()) * 500) + 400);
+        soundbarAnims[idx].setDuration((long) ((new Random().nextFloat()) * 300) + 300); // random number from 400 to 900
         soundbarAnims[idx].start();
-    }*/
+    }
 }

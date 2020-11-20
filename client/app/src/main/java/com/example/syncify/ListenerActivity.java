@@ -31,6 +31,7 @@ public class ListenerActivity extends  MusicPlayerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listener);
         connectAppRemote();
+        startSoundBarAnim();
 
         String key = getIntent().getStringExtra("HostKey");
         Session.user.child("listeningTo").setValue(key);
@@ -116,9 +117,11 @@ public class ListenerActivity extends  MusicPlayerActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue(Boolean.class)){
                     playerApi.resume();
+                    toggleSoundBarAnim(true);
                 }
                 else {
                     playerApi.pause();
+                    toggleSoundBarAnim(false);
                 }
             }
 

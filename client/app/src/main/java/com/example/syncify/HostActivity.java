@@ -49,6 +49,7 @@ public class HostActivity extends MusicPlayerActivity {
         Session.user.child("isHosting").setValue(true);
         connectAppRemote();
         trackListenerNum();
+        startSoundBarAnim();
     }
 
     void play(){
@@ -64,8 +65,12 @@ public class HostActivity extends MusicPlayerActivity {
     public void togglePause(View v){
         if (isPaused) {
             playerApi.resume();
+            isPaused = false;
+            toggleSoundBarAnim(true);
         } else {
             playerApi.pause();
+            isPaused = true;
+            toggleSoundBarAnim(false);
         }
     }
     public void skipNext(View v){
