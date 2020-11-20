@@ -92,9 +92,10 @@ public class ListenerActivity extends  MusicPlayerActivity {
                 }
                 playerApi.play(snapshot.getValue(String.class)).setResultCallback(empty -> {
                     setTimestamp();
-                    playerApi.pause();
                     setPlayingListener();
                 });
+
+                playerApi.pause();
 
                 playerApi.subscribeToPlayerState().setEventCallback(playerState -> {
                     songInfoView = findViewById(R.id.songText);
