@@ -9,13 +9,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/SyncifyTheme">
-        <activity android:name=".SearchUserActivity"/>
-        <activity android:name=".ListenerActivity" />
-        <activity android:name=".HostActivity" />
-        <activity android:name=".MusicPlayerActivity" />
-        <activity android:name=".StarterPageActivity" />
-        <activity android:name=".SelectPlaylistActivity"/>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".SearchUserActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ListenerActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".HostActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".MusicPlayerActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".StarterPageActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".SelectPlaylistActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
