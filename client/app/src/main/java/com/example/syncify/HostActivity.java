@@ -6,6 +6,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.PlayerApi;
@@ -14,6 +21,8 @@ import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -24,17 +33,22 @@ public class HostActivity extends MusicPlayerActivity {
     private Subscription<PlayerState> mSub;
     private ProgressBar progressBar;
     private boolean isPaused;
+    private ValueEventListener trackListener;
+    private ScheduledExecutorService timeStampUpdater;
+    private final DatabaseReference listeners = Session.user.child("listeners");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host);
+        songInfoView = findViewById(R.id.songText);
+        listenerCount = findViewById(R.id.listenerCount);
 
         //progressBar = findViewById(R.id.);
         //progressBar.setMin(0);
-        songInfoView = findViewById(R.id.songText);
         Session.user.child("isHosting").setValue(true);
         connectAppRemote();
+        trackListenerNum();
     }
 
     void play(){
@@ -43,8 +57,9 @@ public class HostActivity extends MusicPlayerActivity {
             isPaused = false;
             playerApi.seekTo(0);
             broadCastPlay();});
-        ScheduledExecutorService exec = new ScheduledThreadPoolExecutor(1);
-        exec.scheduleAtFixedRate(new TimeStampUpdate(), 1, 1, TimeUnit.SECONDS);
+
+        timeStampUpdater = new ScheduledThreadPoolExecutor(1);
+        timeStampUpdater.scheduleAtFixedRate(new TimeStampUpdate(), 1, 1, TimeUnit.SECONDS);
     }
     public void togglePause(View v){
         if (isPaused) {
@@ -62,6 +77,8 @@ public class HostActivity extends MusicPlayerActivity {
     }
     public void closeRoom(View v){
         Session.user.child("isHosting").setValue(false);
+        timeStampUpdater.shutdownNow();
+        listeners.removeEventListener(trackListener);
         playerApi.pause();
         mSub.cancel();
         SpotifyAppRemote.disconnect(mSpotifyAppRemote);
@@ -101,6 +118,24 @@ public class HostActivity extends MusicPlayerActivity {
         Session.user.child("songUri").setValue(null);
         Session.user.child("isPlaying").setValue(false);
         Session.user.child("timestamp").setValue(0);
+    }
+
+    private void trackListenerNum() {
+        trackListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() == null) return;
+
+                GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
+                List<String> keyList = snapshot.getValue(t);
+                listenerCount.setText(String.valueOf(keyList.size()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        };
+
+        listeners.addValueEventListener(trackListener);
     }
 
     void connectAppRemote() {

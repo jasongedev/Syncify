@@ -13,7 +13,7 @@ import java.util.Random;
 
 public abstract class MusicPlayerActivity extends AppCompatActivity {
     TextView songInfoView;
-    TextView numListenersView;
+    TextView listenerCount;
     ObjectAnimator[] soundbarAnims;
     private float minScaleY = 10;
     private float maxScaleY = 100;
@@ -21,10 +21,9 @@ public abstract class MusicPlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //songInfoView = findViewById(R.id.);
-        //numListenersView = findViewById(R.id.);
     }
 
+    //abstract void connectAppRemote();
     /*private void startSoundBarAnim() {
         // create, store, and start the sound bar object animators
         ViewGroup viewGroup = findViewById(R.id.);
