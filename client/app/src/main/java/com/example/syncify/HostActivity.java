@@ -23,6 +23,7 @@ import com.spotify.protocol.types.Track;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -42,9 +43,11 @@ public class HostActivity extends MusicPlayerActivity {
         setContentView(R.layout.activity_host);
         songInfoView = findViewById(R.id.songText);
         listenerCount = findViewById(R.id.listenerCount);
-
+        trackStart = findViewById(R.id.trackStart);
+        trackEnd = findViewById(R.id.trackEnd);
         progressBar = findViewById(R.id.trackProgress);
         progressBar.setMin(0);
+
         Session.user.child("isHosting").setValue(true);
         connectAppRemote();
         trackListenerNum();
@@ -98,6 +101,7 @@ public class HostActivity extends MusicPlayerActivity {
         mSub = playerApi.subscribeToPlayerState().setEventCallback(playerState -> {
             if(playerState.track != null){
                 updateSongInfo(playerState.track);
+                trackEnd.setText(milliToTime(playerState.track.duration));
                 progressBar.setMax((int) playerState.track.duration);
                 progressBar.setProgress((int) playerState.playbackPosition, true);
             }
@@ -172,12 +176,19 @@ public class HostActivity extends MusicPlayerActivity {
                     }
                 });
     }
+
+    String milliToTime(long milli) {
+        long mins = milli / 60000;
+        long secs = (milli % 60000) / 1000;
+        return String.format(Locale.US, "%2d:%02d", mins, secs);
+    }
     private class TimeStampUpdate implements Runnable{
         @Override
         public void run() {
             playerApi.getPlayerState()
                     .setResultCallback(playerState -> {
                         progressBar.setProgress((int) playerState.playbackPosition);
+                        trackStart.setText(milliToTime(playerState.playbackPosition));
                         Session.user.child("timestamp").setValue(playerState.playbackPosition);
                     })
                     .setErrorCallback(throwable -> Log.e("HostActivity", throwable.getMessage(), throwable));

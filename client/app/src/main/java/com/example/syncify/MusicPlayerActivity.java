@@ -19,6 +19,8 @@ public abstract class MusicPlayerActivity extends AppCompatActivity {
     private final float minScaleY = 0.1f;
     private final float maxScaleY = 1.4f;
     protected ProgressBar progressBar;
+    protected TextView trackStart;
+    protected TextView trackEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
