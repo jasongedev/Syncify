@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     tools:context=".ListenerActivity">
+
     <TextView
         android:id="@+id/songText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_italic"
-        android:text="Song by Arist"
+        android:text="Song by Artist"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -62,7 +63,7 @@
 
     <TextView
         android:id="@+id/listenerCount"
-        android:layout_width="9dp"
+        android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:fontFamily="@font/roboto"
         android:text="0"
@@ -92,7 +93,7 @@
         android:id="@+id/cancelButton"
         android:layout_width="182dp"
         android:layout_height="27dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="36dp"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
@@ -102,12 +103,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/cancel_background_block" />
 
+    <TextView
+        android:id="@+id/trackStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
+        android:text="00:00"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.079"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/trackEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
+        android:text="00:00"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.917"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ProgressBar
         android:id="@+id/trackProgress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="350dp"
         android:layout_height="15dp"
-        android:layout_marginBottom="84dp"
+        android:layout_marginBottom="100dp"
         android:indeterminateTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -127,5 +152,114 @@
         app:layout_constraintTop_toTopOf="@+id/cancelButton"
         app:layout_constraintVertical_bias="0.529" />
 
+    <LinearLayout
+        android:id="@+id/soundBarView"
+        android:layout_width="380dp"
+        android:layout_height="220dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/cancelButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listenerBlock">
+
+        <ImageView
+            android:id="@+id/soundBar"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+
+        <ImageView
+            android:id="@+id/soundBar2"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+
+        <ImageView
+            android:id="@+id/soundBar3"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+
+        <ImageView
+            android:id="@+id/soundBar4"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+
+        <ImageView
+            android:id="@+id/soundBar5"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+
+        <ImageView
+            android:id="@+id/soundBar6"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+
+        <ImageView
+            android:id="@+id/soundBar7"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+
+        <ImageView
+            android:id="@+id/soundBar8"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+
+        <ImageView
+            android:id="@+id/soundBar9"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+
+        <ImageView
+            android:id="@+id/soundBar10"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+
+        <ImageView
+            android:id="@+id/soundBar11"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+
+        <ImageView
+            android:id="@+id/soundBar12"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+
+        <ImageView
+            android:id="@+id/soundBar13"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+
+        <ImageView
+            android:id="@+id/soundBar14"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sound_bar" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
