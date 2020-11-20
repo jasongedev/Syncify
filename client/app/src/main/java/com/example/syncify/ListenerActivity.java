@@ -15,7 +15,9 @@ import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.PlayerApi;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.protocol.client.CallResult;
 import com.spotify.protocol.client.Subscription;
+import com.spotify.protocol.types.Empty;
 import com.spotify.protocol.types.PlayerState;
 
 public class ListenerActivity extends  MusicPlayerActivity {
@@ -87,10 +89,12 @@ public class ListenerActivity extends  MusicPlayerActivity {
                 if (snapshot.getValue() == null){
                     return;
                 }
-                playerApi.play(snapshot.getValue(String.class));
-                setTimestamp();
-                playerApi.pause();
-                setPlayingListener();
+                playerApi.play(snapshot.getValue(String.class)).setResultCallback(empty -> {
+                    setTimestamp();
+                    playerApi.pause();
+                    setPlayingListener();
+                });
+
                 playerApi.subscribeToPlayerState().setEventCallback(playerState -> {
                     songInfoView = findViewById(R.id.songText);
                     String trackInfo = playerState.track.name + " by " + playerState.track.artist.name;
