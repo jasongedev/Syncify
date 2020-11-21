@@ -32,6 +32,7 @@ public class ListenerActivity extends  MusicPlayerActivity {
     private PlayerApi playerApi;
     private Subscription<PlayerState> mSub;
     private boolean firstSong = true;
+    ScheduledExecutorService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,14 +122,21 @@ public class ListenerActivity extends  MusicPlayerActivity {
 
                 mSub = playerApi.subscribeToPlayerState().setEventCallback(playerState -> {
                     songInfoView = findViewById(R.id.songText);
-                    String trackInfo = playerState.track.name + " by " + playerState.track.artist.name;
+                    String trackInfo;
+
+                    if (playerState.track.artist.name != null) {
+                        trackInfo = playerState.track.name + " by " + playerState.track.artist.name;
+                    } else {
+                        trackInfo = "Advertisement";
+                    }
+
                     songInfoView.setText(trackInfo);
                     progressBar.setMax((int) playerState.track.duration);
                     progressBar.setProgress((int) playerState.playbackPosition, true);
                     trackEnd.setText(milliToTime(playerState.track.duration));
                 });
 
-                ScheduledExecutorService service = new ScheduledThreadPoolExecutor(1);
+                service = new ScheduledThreadPoolExecutor(1);
                 service.scheduleAtFixedRate(() -> playerApi.getPlayerState()
                         .setResultCallback(playerState -> {
                             progressBar.setProgress((int) playerState.playbackPosition);
@@ -192,10 +200,12 @@ public class ListenerActivity extends  MusicPlayerActivity {
     }
 
     public void exitRoom(View v){
-        playerApi.pause();
-        mSub.cancel();
-        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
-        super.onBackPressed();
+        playerApi.pause().setResultCallback(empty -> {
+            service.shutdownNow();
+            mSub.cancel();
+            SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+            ListenerActivity.super.onBackPressed();
+        });
     }
 
     @Override
