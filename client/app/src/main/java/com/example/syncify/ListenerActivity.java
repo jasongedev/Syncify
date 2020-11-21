@@ -150,11 +150,12 @@ public class ListenerActivity extends  MusicPlayerActivity {
         Session.user.child("isPlaying").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue(Boolean.class)){
+                Boolean isplaying = snapshot.getValue(Boolean.class);
+                if (isplaying != null && isplaying){
                     playerApi.resume();
                     toggleSoundBarAnim(true);
                 }
-                else {
+                else if (isplaying != null){
                     playerApi.pause();
                     toggleSoundBarAnim(false);
                 }
@@ -171,8 +172,10 @@ public class ListenerActivity extends  MusicPlayerActivity {
         Session.user.child("timestamp").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                long temp = snapshot.getValue(Long.class);
-                playerApi.seekTo(temp);
+                Long temp = snapshot.getValue(Long.class);
+                if (temp != null) {
+                    playerApi.seekTo(temp);
+                }
             }
 
             @Override
