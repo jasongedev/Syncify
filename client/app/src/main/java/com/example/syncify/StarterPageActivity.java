@@ -2,6 +2,7 @@ package com.example.syncify;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -14,10 +15,12 @@ public class StarterPageActivity extends AppCompatActivity {
     }
 
     public void HostRoom(View view) {
-
+        Intent intent = new Intent(this, HostActivity.class);
+        startActivity(intent);
     }
 
     public void JoinRoom(View view) {
-
+        Intent intent = new Intent(this, SearchUserActivity.class);
+        startActivity(intent);
     }
 }
