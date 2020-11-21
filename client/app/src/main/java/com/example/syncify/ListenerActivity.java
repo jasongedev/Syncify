@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -47,6 +48,10 @@ public class ListenerActivity extends  MusicPlayerActivity {
 
         String key = getIntent().getStringExtra("HostKey");
         Session.user.child("listeningTo").setValue(key);
+
+        String hostName = getIntent().getStringExtra("HostName").toUpperCase() + "'S ROOM";
+        TextView hostNameView = findViewById(R.id.hostingText);
+        hostNameView.setText(hostName);
 
         // Check if there is a valid person to listen to
         Session.user.child("listeningTo").addValueEventListener(new ValueEventListener() {

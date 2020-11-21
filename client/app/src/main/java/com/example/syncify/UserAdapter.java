@@ -44,6 +44,7 @@ public class UserAdapter extends ArrayAdapter<User> {
         convertView.setOnClickListener(view -> {
             Intent listenerIntent = new Intent(getContext(), ListenerActivity.class);
             listenerIntent.putExtra("HostKey", user.key);
+            listenerIntent.putExtra("HostName", user.name);
             getContext().startActivity(listenerIntent);
         });
 
