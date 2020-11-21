@@ -2,49 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     tools:context=".SelectPlaylistActivity" >
 
-    <ImageView
-        android:id="@+id/playlist_img"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/playlist_button"
-        app:layout_constraintStart_toStartOf="@+id/playlist_button"
-        app:layout_constraintTop_toTopOf="@+id/playlist_button"
-        app:layout_constraintVertical_bias="0.51"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal_background" />
-
-    <Button
-        android:id="@+id/playlist_button"
-        android:layout_width="290dp"
-        android:layout_height="118dp"
-        android:layout_marginTop="44dp"
-        android:backgroundTint="#142025"
-        android:text="                                  Playlist 1"
-        android:textAlignment="viewStart"
-        android:textColor="#FFFFFF"
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="332dp"
+        android:layout_height="530dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_playlist" />
-
-    <TextView
-        android:id="@+id/title_playlist"
-        android:layout_width="266dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="64dp"
-        android:text="Your Playlists"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.791" />
 </androidx.constraintlayout.widget.ConstraintLayout>
