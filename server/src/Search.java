@@ -4,7 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -79,7 +81,7 @@ public class Search extends HttpServlet {
 
 						@Override
 						public void onDataChange(DataSnapshot snapshot) {
-							ArrayList<String> searchResults = new ArrayList<String>();
+							Set<String> searchResults = new HashSet<String>();
 							if(snapshot.exists()) {
 								for(DataSnapshot d: snapshot.getChildren()) {
 									//UserObject res = d.getValue(UserObject.class);
@@ -88,8 +90,13 @@ public class Search extends HttpServlet {
 									
 								}
 							}
+							ArrayList<String> returnList = new ArrayList();
 							
-							ref.child(userKey).child("searchedUsers").setValueAsync(searchResults, null);
+							for(String s: searchResults) {
+								returnList.add(s);
+							}
+							
+							ref.child(userKey).child("searchedUsers").setValueAsync(returnList, null);
 						}
 
 						@Override
