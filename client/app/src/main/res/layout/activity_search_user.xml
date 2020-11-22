@@ -4,6 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".SearchUserActivity">
+
+    <ImageView
+        android:id="@+id/search_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/input_search" />
+
+    <ImageView
+        android:id="@+id/user_container"
+        android:layout_width="303dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_bar"
+        app:srcCompat="@drawable/search_user" />
+
+    <TextView
+        android:id="@+id/search_input_value"
+        android:layout_width="147dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="120dp"
+        android:fontFamily="@font/roboto_italic"
+        android:text="Searching ..."
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/search_bar"
+        app:layout_constraintStart_toStartOf="@+id/search_bar"
+        app:layout_constraintTop_toTopOf="@+id/search_bar"
+        app:layout_constraintVertical_bias="0.608" />
+
+    <TextView
+        android:id="@+id/search_user_name"
+        android:layout_width="147dp"
+        android:layout_height="22dp"
+        android:layout_marginEnd="84dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Username"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/user_container"
+        app:layout_constraintEnd_toEndOf="@+id/user_container"
+        app:layout_constraintTop_toTopOf="@+id/user_container"
+        app:layout_constraintVertical_bias="0.509" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/circle"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/user_isActive"
+        app:layout_constraintEnd_toEndOf="@+id/user_isActive"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="@+id/user_isActive"
+        app:layout_constraintTop_toTopOf="@+id/user_isActive"
+        app:layout_constraintVertical_bias="0.53">
+
+        <ImageView
+            android:id="@+id/user_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:srcCompat="@tools:sample/avatars" />
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/user_isActive"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        app:layout_constraintBottom_toBottomOf="@+id/user_container"
+        app:layout_constraintEnd_toStartOf="@+id/search_user_name"
+        app:layout_constraintStart_toStartOf="@+id/user_container"
+        app:layout_constraintTop_toTopOf="@+id/user_container"
+        app:srcCompat="@drawable/syncify_green" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
