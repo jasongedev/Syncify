@@ -3,7 +3,7 @@ package com.example.syncify;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,7 +21,6 @@ import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ScheduledExecutorService;
@@ -36,6 +35,7 @@ public class HostActivity extends MusicPlayerActivity {
     private ValueEventListener trackListener;
     private ScheduledExecutorService timeStampUpdater;
     private final DatabaseReference listeners = Session.user.child("listeners");
+    private ImageButton playPauseButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class HostActivity extends MusicPlayerActivity {
         trackEnd = findViewById(R.id.trackEnd);
         progressBar = findViewById(R.id.trackProgress);
         progressBar.setMin(0);
+        playPauseButton = findViewById(R.id.pauseButton);
 
         Session.user.child("isHosting").setValue(true);
         connectAppRemote();
@@ -62,6 +63,7 @@ public class HostActivity extends MusicPlayerActivity {
             playerApi.toggleRepeat();
             broadCastPlay();});
 
+        playPauseButton.setImageResource(R.drawable.pause_icon);
         timeStampUpdater = new ScheduledThreadPoolExecutor(1);
         timeStampUpdater.scheduleAtFixedRate(new TimeStampUpdate(), 1, 1, TimeUnit.SECONDS);
     }
@@ -69,22 +71,26 @@ public class HostActivity extends MusicPlayerActivity {
         if (isPaused) {
             playerApi.resume();
             isPaused = false;
+            playPauseButton.setImageResource(R.drawable.pause_icon);
             toggleSoundBarAnim(true);
         } else {
             playerApi.pause();
             isPaused = true;
             toggleSoundBarAnim(false);
+            playPauseButton.setImageResource(R.drawable.play_button);
         }
     }
     public void skipNext(View v){
         playerApi.skipNext();
         toggleSoundBarAnim(true);
+        playPauseButton.setImageResource(R.drawable.pause_icon);
     }
     public void skipPrev(View v){
         mSpotifyAppRemote.getUserApi().getCapabilities().setResultCallback(capabilities -> {
             if (capabilities.canPlayOnDemand) {
                 playerApi.skipPrevious();
                 toggleSoundBarAnim(true);
+                playPauseButton.setImageResource(R.drawable.pause_icon);
                 playerApi.getPlayerState().setResultCallback(playerState -> updateSongInfo(playerState.track));
             }
         });
