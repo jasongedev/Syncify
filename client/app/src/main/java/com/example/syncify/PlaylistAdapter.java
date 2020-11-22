@@ -50,7 +50,8 @@ public class PlaylistAdapter extends ArrayAdapter<Playlist> {
 //        image.setImageBitmap(mBitmaps[position]);
 
         convertView.setOnClickListener(view -> {
-            Intent hostIntent = new Intent(getContext(), HostActivity.class);
+            Intent hostIntent = new Intent(getContext(), TransitionActivity.class);
+            hostIntent.putExtra("Host?", true);
             hostIntent.putExtra("PlaylistUri", playlist.uri);
             getContext().startActivity(hostIntent);
         });

@@ -15,12 +15,14 @@ public class StarterPageActivity extends AppCompatActivity {
     }
 
     public void HostRoom(View view) {
-        Intent intent = new Intent(this, SelectPlaylistActivity.class);
+        Intent intent = new Intent(this, TransitionActivity.class);
+        intent.putExtra("Host?", true);
         startActivity(intent);
     }
 
     public void JoinRoom(View view) {
-        Intent intent = new Intent(this, SearchUserActivity.class);
+        Intent intent = new Intent(this, TransitionActivity.class);
+        intent.putExtra("Host?", false);
         startActivity(intent);
     }
 }
