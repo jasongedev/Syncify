@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 public class StarterPageActivity extends AppCompatActivity {
 
@@ -15,9 +16,14 @@ public class StarterPageActivity extends AppCompatActivity {
     }
 
     public void HostRoom(View view) {
-        Intent intent = new Intent(this, TransitionActivity.class);
-        intent.putExtra("Host?", true);
-        startActivity(intent);
+        if (Session.isGuest) {
+            Toast toast = Toast.makeText(this, "Can't host as a guest", Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            Intent intent = new Intent(this, TransitionActivity.class);
+            intent.putExtra("Host?", true);
+            startActivity(intent);
+        }
     }
 
     public void JoinRoom(View view) {

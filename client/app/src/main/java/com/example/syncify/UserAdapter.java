@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.annotations.NotNull;
 
@@ -56,11 +57,16 @@ public class UserAdapter extends ArrayAdapter<User> {
 
 
         convertView.setOnClickListener(view -> {
-            Intent listenerIntent = new Intent(getContext(), TransitionActivity.class);
-            listenerIntent.putExtra("Host?", false);
-            listenerIntent.putExtra("HostKey", user.key);
-            listenerIntent.putExtra("HostName", user.name);
-            getContext().startActivity(listenerIntent);
+            if (Session.isGuest) {
+                Toast toast = Toast.makeText(getContext(), "Can't join a room as a guest", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                Intent listenerIntent = new Intent(getContext(), TransitionActivity.class);
+                listenerIntent.putExtra("Host?", false);
+                listenerIntent.putExtra("HostKey", user.key);
+                listenerIntent.putExtra("HostName", user.name);
+                getContext().startActivity(listenerIntent);
+            }
         });
 
         return convertView;
