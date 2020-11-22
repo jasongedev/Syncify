@@ -1,29 +1,24 @@
 package com.example.syncify;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class SelectPlaylistActivity extends AppCompatActivity {
 
     ListView mListView;
-    List<Playlist> list = new ArrayList<>();
+    List<Playlist> list;
     Playlist[] playlists;
-    ChildEventListener listener;
-    final long waitTime = 3500;
+    ValueEventListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +29,6 @@ public class SelectPlaylistActivity extends AppCompatActivity {
         //mListView = findViewById(R.id.);
         Session.user.child("getPlaylists").setValue(true);
         listenToPlaylistField();
-        createPlaylistArray();
 
         /*TimerTask task = new TimerTask() {
             @Override
@@ -62,30 +56,12 @@ public class SelectPlaylistActivity extends AppCompatActivity {
     }
 
     public void listenToPlaylistField() {
-        listener = new ChildEventListener() {
+        listener = new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Playlist playlist = snapshot.getValue(Playlist.class);
-                if (playlist != null) {
-                    list.add(playlist);
-                } else {
-                    Log.d("Here", "NULL");
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                GenericTypeIndicator<List<Playlist>> t = new GenericTypeIndicator<List<Playlist>>() {};
+                list = snapshot.getValue(t);
+                createPlaylistArray();
             }
 
             @Override
@@ -94,21 +70,13 @@ public class SelectPlaylistActivity extends AppCompatActivity {
             }
         };
 
-        Session.user.child("playlists").addChildEventListener(listener);
+        Session.user.child("playlists").addValueEventListener(listener);
     }
 
     public void createPlaylistArray() {
-        TimerTask removeListener = new TimerTask() {
-            @Override
-            public void run() {
-                Session.user.child("playlists").removeEventListener(listener);
-                playlists = convertListToArray(list);
-                //runOnUiThread(() -> populateListView(playlists)); TODO: uncomment once layout file is ready
-            }
-        };
-
-        Timer timer = new Timer();
-        timer.schedule(removeListener, waitTime);
+        Session.user.child("playlists").removeEventListener(listener);
+        playlists = convertListToArray(list);
+        runOnUiThread(() -> populateListView(playlists));
     }
 
     private Playlist[] convertListToArray(List<Playlist> pList) {
