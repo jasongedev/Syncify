@@ -15,7 +15,7 @@ public class StarterPageActivity extends AppCompatActivity {
     }
 
     public void HostRoom(View view) {
-        Intent intent = new Intent(this, HostActivity.class);
+        Intent intent = new Intent(this, SelectPlaylistActivity.class);
         startActivity(intent);
     }
 
