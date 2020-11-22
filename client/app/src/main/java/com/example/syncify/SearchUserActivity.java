@@ -3,6 +3,7 @@ package com.example.syncify;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +19,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.String;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -28,13 +30,12 @@ public class SearchUserActivity extends AppCompatActivity {
     DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
     User[] users = new User[0];
+    ArrayList<User> usersList = new ArrayList<>();
 
     ValueEventListener valueListener;
     DatabaseReference userQuery = Session.user.child("userQuery");
     DatabaseReference getUsers = Session.user.child("getUsers");
     DatabaseReference searchedUsers = Session.user.child("searchedUsers");
-
-    Semaphore sem = new Semaphore(1);
 
     UserAdapter adapter;
     ListView listView;
@@ -43,20 +44,20 @@ public class SearchUserActivity extends AppCompatActivity {
     boolean prepSearch;
     long searchDelay = 1;
     ScheduledExecutorService searchExec = new ScheduledThreadPoolExecutor(1);
+    Context mContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_user);
-        //editText = findViewById(R.id.edit); // TODO: find the view
+        editText = findViewById(R.id.search_user_text);
         adapter = new UserAdapter(this, users);
-        listView = new ListView(this); // TODO: replace this with findviewbyid
-        listView.setAdapter(adapter);
+        listView = findViewById(R.id.list_view);
 
         setListener();
 
         // TODO: uncomment eventually
-        /*editText.addTextChangedListener(new TextWatcher() {
+        editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
@@ -75,30 +76,7 @@ public class SearchUserActivity extends AppCompatActivity {
                     }, searchDelay, TimeUnit.SECONDS);
                 }
             }
-        });*/
-
-        /*ScheduledExecutorService exec = new ScheduledThreadPoolExecutor(1);
-        exec.schedule(() -> {
-            ArrayList<String> thekeys = new ArrayList<>();
-            thekeys.add("-MME78KwRd5Leh67MVt7");
-            thekeys.add("-MME7BwopQeMB38s7zs9");
-
-            Session.user.child("searchedUsers").setValue(thekeys);
-        }, 3, TimeUnit.SECONDS);
-
-        ScheduledExecutorService service = new ScheduledThreadPoolExecutor(1);
-        service.scheduleAtFixedRate(() -> {
-            User obj = (User) listView.getItemAtPosition(0);
-            Log.d("Hello", "Item is: " + obj.name);
-        }, 5, 3, TimeUnit.SECONDS);*/
-
-        /*
-        ScheduledExecutorService service = new ScheduledThreadPoolExecutor(1);
-        service.schedule(() -> {
-            userQuery.setValue("a");
-            getUsers.setValue(true);
-        }, 10, TimeUnit.SECONDS);*/
-
+        });
     }
 
     private void setListener() {
@@ -107,34 +85,22 @@ public class SearchUserActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() == null) return;
 
-                try {
-                    sem.acquire();
-                    GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
-                    List<String> keyList = snapshot.getValue(t);
-                    users = new User[keyList.size()];
+                GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
+                List<String> keyList = snapshot.getValue(t);
 
-                    // insert Users into User[] users
-                    for (int i = 0; i < users.length; i++) {
-                        final int idx = i;
-                        usersRef.child(keyList.get(i)).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                users[idx] = snapshot.getValue(User.class);
-                                Log.d("Hello", String.valueOf(users[idx].name));
-                            }
+                for (int i = 0; i < keyList.size(); i++) {
+                    usersRef.child(keyList.get(i)).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            usersList.add(snapshot.getValue(User.class));
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) { }
-                        });
-                    }
+                            adapter = new UserAdapter(mContext, usersList.toArray(users));
+                            listView.setAdapter(adapter);
+                        }
 
-                    // update adapter and list view
-                    adapter = new UserAdapter(getBaseContext(), users);
-                    listView.setAdapter(adapter);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    sem.release();
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) { }
+                    });
                 }
             }
 

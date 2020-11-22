@@ -22,10 +22,11 @@
         android:id="@+id/search_user_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:alpha=".5"
         android:ems="10"
         android:fontFamily="@font/roboto_italic"
+        android:hint="Searching..."
         android:inputType="textPersonName"
-        android:text="Searching ..."
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/search_bar"
@@ -34,5 +35,14 @@
         app:layout_constraintStart_toStartOf="@+id/search_bar"
         app:layout_constraintTop_toTopOf="@+id/search_bar"
         app:layout_constraintVertical_bias="0.3" />
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="332dp"
+        android:layout_height="530dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
