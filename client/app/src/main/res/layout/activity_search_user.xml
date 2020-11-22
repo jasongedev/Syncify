@@ -4,6 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".SearchUserActivity">
 
+    <ImageView
+        android:id="@+id/search_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/input_search" />
+
+    <ImageView
+        android:id="@+id/user_container"
+        android:layout_width="310dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_bar"
+        app:srcCompat="@drawable/search_user" />
+
+    <TextView
+        android:id="@+id/search_input_value"
+        android:layout_width="147dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="120dp"
+        android:fontFamily="@font/roboto_italic"
+        android:text="Searching ..."
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/search_bar"
+        app:layout_constraintStart_toStartOf="@+id/search_bar"
+        app:layout_constraintTop_toTopOf="@+id/search_bar"
+        app:layout_constraintVertical_bias="0.608" />
+
+    <TextView
+        android:id="@+id/search_user_name"
+        android:layout_width="147dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Username"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/user_container"
+        app:layout_constraintStart_toEndOf="@+id/user_image"
+        app:layout_constraintTop_toTopOf="@+id/user_container"
+        app:layout_constraintVertical_bias="0.607" />
+
+    <ImageView
+        android:id="@+id/user_image"
+        android:layout_width="42dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="12dp"
+        android:cropToPadding="false"
+        app:layout_constraintBottom_toBottomOf="@+id/user_container"
+        app:layout_constraintStart_toStartOf="@+id/user_container"
+        app:layout_constraintTop_toTopOf="@+id/user_container"
+        tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>
