@@ -27,8 +27,12 @@
         <activity android:name=".SelectPlaylistActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".TransitionActivity"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".LoginActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

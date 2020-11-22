@@ -4,4 +4,8 @@
         <item name="colorPrimaryDark">#182429</item>
         <item name="colorAccent">#3FD89A</item>
     </style>
+
+    <style name="SplashTheme" parent="SyncifyTheme">
+        <item name="android:windowBackground">@drawable/splashscreen</item>
+    </style>
 </resources>
