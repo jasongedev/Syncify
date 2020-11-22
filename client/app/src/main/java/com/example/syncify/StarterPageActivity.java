@@ -20,14 +20,14 @@ public class StarterPageActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(this, "Can't host as a guest", Toast.LENGTH_SHORT);
             toast.show();
         } else {
-            Intent intent = new Intent(this, TransitionActivity.class);
+            Intent intent = new Intent(this, SelectPlaylistActivity.class);
             intent.putExtra("Host?", true);
             startActivity(intent);
         }
     }
 
     public void JoinRoom(View view) {
-        Intent intent = new Intent(this, TransitionActivity.class);
+        Intent intent = new Intent(this, SearchUserActivity.class);
         intent.putExtra("Host?", false);
         startActivity(intent);
     }
