@@ -25,8 +25,7 @@ public class SelectPlaylistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_playlist);
 
-        // TODO: Set listview to equal listview in layout
-        //mListView = findViewById(R.id.);
+        mListView = findViewById(R.id.list_view);
         Session.user.child("getPlaylists").setValue(true);
         listenToPlaylistField();
 
