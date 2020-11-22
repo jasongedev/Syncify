@@ -31,4 +31,10 @@ public class StarterPageActivity extends AppCompatActivity {
         intent.putExtra("Host?", false);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Session.user.setValue(null);
+    }
 }
