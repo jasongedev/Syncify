@@ -20,6 +20,7 @@ public class User {
     public ArrayList<String> listeners;
     public ArrayList<Playlist> playlists;
     public ArrayList<String> searchedUsers;
+    public String prevListeningTo;
     public String listeningTo;
 
     public User() {

@@ -48,6 +48,7 @@ public class ListenerActivity extends  MusicPlayerActivity {
         startSoundBarAnim();
 
         String key = getIntent().getStringExtra("HostKey");
+        Session.user.child("prevListeningTo").setValue(key);
         Session.user.child("listeningTo").setValue(key);
 
         String hostName = getIntent().getStringExtra("HostName").toUpperCase() + "'S ROOM";
