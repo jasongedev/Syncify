@@ -9,10 +9,9 @@
         android:id="@+id/user_container"
         android:layout_width="303dp"
         android:layout_height="70dp"
-        android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_bar"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/search_user" />
 
     <ImageView
@@ -43,13 +42,12 @@
             tools:srcCompat="@tools:sample/avatars" />
     </androidx.cardview.widget.CardView>
 
-    <EditText
+    <TextView
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:fontFamily="@font/roboto_bold"
-        android:inputType="textPersonName"
         android:text="Username"
         android:textColor="#FFFFFF"
         android:textSize="16sp"

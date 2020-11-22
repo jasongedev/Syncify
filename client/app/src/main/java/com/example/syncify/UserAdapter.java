@@ -50,19 +50,18 @@ public class UserAdapter extends ArrayAdapter<User> {
             profilePic.setImageResource((R.drawable.syncify_grey));
         }
 
-
-//        convertView.setOnClickListener(view -> {
-//            if (Session.isGuest) {
-//                Toast toast = Toast.makeText(getContext(), "Can't join a room as a guest", Toast.LENGTH_SHORT);
-//                toast.show();
-//            } else {
-//                Intent listenerIntent = new Intent(getContext(), TransitionActivity.class);
-//                listenerIntent.putExtra("Host?", false);
-//                listenerIntent.putExtra("HostKey", user.key);
-//                listenerIntent.putExtra("HostName", user.name);
-//                getContext().startActivity(listenerIntent);
-//            }
-//        });
+        convertView.setOnClickListener(view -> {
+            if (Session.isGuest) {
+                Toast toast = Toast.makeText(getContext(), "Can't join a room as a guest", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                Intent listenerIntent = new Intent(getContext(), TransitionActivity.class);
+                listenerIntent.putExtra("Host?", false);
+                listenerIntent.putExtra("HostKey", user.key);
+                listenerIntent.putExtra("HostName", user.name);
+                getContext().startActivity(listenerIntent);
+            }
+        });
 
         return convertView;
     }
