@@ -201,6 +201,7 @@ public class ListenerActivity extends  MusicPlayerActivity {
 
     public void exitRoom(View v){
         playerApi.pause().setResultCallback(empty -> {
+            Session.user.child("listeningTo").setValue(null);
             service.shutdownNow();
             mSub.cancel();
             SpotifyAppRemote.disconnect(mSpotifyAppRemote);
