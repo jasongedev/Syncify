@@ -3,45 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
-
-    <TextView
-        android:id="@+id/Playlist_Title"
-        android:layout_width="218dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="68dp"
-        android:fontFamily="@font/roboto_bold"
-        android:text="Select A Playlist"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/playlist_list_view"
         android:layout_width="291dp"
         android:layout_height="125dp"
-        android:layout_marginTop="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Playlist_Title"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/base" />
 
     <ImageView
         android:id="@+id/playlist_cover"
-        android:layout_width="98dp"
-        android:layout_height="96dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="90dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="20dp"
         android:adjustViewBounds="false"
         app:layout_constraintBottom_toBottomOf="@+id/playlist_list_view"
         app:layout_constraintStart_toStartOf="@+id/playlist_list_view"
-        app:layout_constraintTop_toTopOf="@+id/playlist_list_view"
-        app:layout_constraintVertical_bias="0.482"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.484"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -54,6 +38,9 @@
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/playlist_list_view"
+        app:layout_constraintEnd_toEndOf="@+id/playlist_list_view"
+        app:layout_constraintHorizontal_bias="0.026"
         app:layout_constraintStart_toEndOf="@+id/playlist_cover"
-        app:layout_constraintTop_toTopOf="@+id/playlist_list_view" />
+        app:layout_constraintTop_toTopOf="@+id/playlist_list_view"
+        app:layout_constraintVertical_bias="0.515" />
 </androidx.constraintlayout.widget.ConstraintLayout>

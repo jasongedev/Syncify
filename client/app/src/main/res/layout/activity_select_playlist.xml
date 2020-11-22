@@ -8,6 +8,21 @@
     android:background="@color/background"
     tools:context=".SelectPlaylistActivity" >
 
+    <TextView
+        android:id="@+id/playlist_Title"
+        android:layout_width="218dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="68dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Select A Playlist"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ListView
         android:id="@+id/list_view"
         android:layout_width="332dp"
