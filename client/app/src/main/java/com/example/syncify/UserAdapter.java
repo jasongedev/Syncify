@@ -34,10 +34,12 @@ public class UserAdapter extends ArrayAdapter<User> {
 //
 //        username.setText(user.name);
 //
-//        if (user.isPlaying) {
+//        if (user.isHosting) {
 //            // TODO: change circle drawable or color to green (whichever works)
+//            circle.setBackgroundResource(R.drawable.syncify_green);
 //        } else {
 //            // TODO: change circle drawable or color to white/red (whichever works)
+//            circle.setBackgroundResource(R.drawable.syncify_grey);
 //        }
 
 
