@@ -6,6 +6,7 @@ public class User {
     public String key;
     public boolean isGuest;
     public String name;
+    public String profilePic;
     public String accessToken;
     public boolean isHosting;
     public boolean isPlaying; // resume or pause
