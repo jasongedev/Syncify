@@ -47,25 +47,32 @@
         android:id="@+id/search_user_name"
         android:layout_width="147dp"
         android:layout_height="33dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="92dp"
         android:fontFamily="@font/roboto_bold"
         android:text="Username"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/user_container"
-        app:layout_constraintStart_toEndOf="@+id/user_image"
+        app:layout_constraintEnd_toEndOf="@+id/user_container"
         app:layout_constraintTop_toTopOf="@+id/user_container"
-        app:layout_constraintVertical_bias="0.607" />
+        app:layout_constraintVertical_bias="0.606" />
 
-    <ImageView
-        android:id="@+id/user_image"
-        android:layout_width="42dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="12dp"
-        android:cropToPadding="false"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="100dp"
         app:layout_constraintBottom_toBottomOf="@+id/user_container"
+        app:layout_constraintEnd_toStartOf="@+id/search_user_name"
         app:layout_constraintStart_toStartOf="@+id/user_container"
-        app:layout_constraintTop_toTopOf="@+id/user_container"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="@+id/user_container">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:srcCompat="@tools:sample/avatars" />
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
