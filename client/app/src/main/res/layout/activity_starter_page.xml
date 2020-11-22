@@ -39,7 +39,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/waves"
         android:layout_width="393dp"
         android:layout_height="230dp"
         android:layout_marginTop="108dp"
@@ -49,7 +49,7 @@
         app:srcCompat="@drawable/group_23" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/logo"
         android:layout_width="257dp"
         android:layout_height="65dp"
         android:layout_marginTop="52dp"
