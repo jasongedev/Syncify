@@ -17,8 +17,17 @@ import java.io.IOException;
 import java.net.URL;
 
 public class UserAdapter extends ArrayAdapter<User> {
+
+    Bitmap[] mBitmaps;
+
     public UserAdapter(Context context, User[] users) {
         super(context, 0, users);
+        mBitmaps = new Bitmap[users.length];
+        for (int i = 0; i < users.length; i++) {
+            final int idx = i;
+            Thread thread = new Thread(() -> convertBitmap(users[idx].profilePic, mBitmaps, idx));
+            thread.start();
+        }
     }
 
     @Override
@@ -38,7 +47,6 @@ public class UserAdapter extends ArrayAdapter<User> {
         ImageView hosting = convertView.findViewById(R.id.user_isActive);
 
         username.setText(user.name);
-        convertBitmap(profilePic, user.profilePic);
 
         if (user.isHosting) {
             hosting.setBackgroundResource(R.drawable.syncify_green);
@@ -57,15 +65,14 @@ public class UserAdapter extends ArrayAdapter<User> {
         return convertView;
     }
 
-    private void convertBitmap(ImageView imageView, String url) {
+    private void convertBitmap(String src, Bitmap[] bitmaps, int index) {
         Thread thread = new Thread(() -> {
             try {
-                URL imageUrl = new URL(url);
-                Bitmap bitmap = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
-                imageView.setImageBitmap(bitmap);
+                URL imageUrl = new URL(src);
+                bitmaps[index] = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
             } catch(IOException e) {
                 // TODO: change this to default profile picture
-                imageView.setBackgroundResource(R.drawable.syncify_grey);
+                bitmaps[index] = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.syncify_grey);
             }
         });
 
