@@ -59,6 +59,7 @@ public class HostActivity extends MusicPlayerActivity {
         playerApi.play(playlistURI).setResultCallback(empty -> {
             isPaused = false;
             playerApi.seekTo(0);
+            playerApi.toggleRepeat();
             broadCastPlay();});
 
         timeStampUpdater = new ScheduledThreadPoolExecutor(1);
@@ -142,7 +143,9 @@ public class HostActivity extends MusicPlayerActivity {
 
                 GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
                 List<String> keyList = snapshot.getValue(t);
-                listenerCount.setText(String.valueOf(keyList.size()));
+                if (keyList != null) {
+                    listenerCount.setText(String.valueOf(keyList.size()));
+                }
             }
 
             @Override
