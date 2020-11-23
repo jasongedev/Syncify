@@ -2,6 +2,7 @@
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -24,6 +25,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.PlaylistSimplified;
@@ -90,6 +93,18 @@ public class Syncify extends HttpServlet {
 		    
 		    DatabaseReference numOtherListenersRef = userRef.child("numOtherListeners").getRef();
 		    numOtherListenersRef.setValueAsync("0");
+		    
+		    DatabaseReference isGetUsersRef = userRef.child("isGetUsers").getRef();
+		    isGetUsersRef.setValueAsync(false);
+		    
+		    DatabaseReference searchQuery = userRef.child("searchQuery").getRef();
+		    searchQuery.setValueAsync("null");
+		    
+		    ArrayList<String> searchResults = new ArrayList<String>();
+		    searchResults.add("spooters");
+		    
+		    DatabaseReference searchedUsersRef = userRef.child("isGetUsersRef").getRef();
+		    searchedUsersRef.setValueAsync(searchResults);
 		    
 		    Map<String, Boolean> listeners = new HashMap<String, Boolean>();
 		    listeners.put("spooters", true);
@@ -202,6 +217,37 @@ public class Syncify extends HttpServlet {
     	}
     }
     
+    private void search(String searchQuery, String userKey) {
+    	DatabaseReference isGetUsersRef = database.getReference("users").child(userKey).child("isGetUsers").getRef();
+    	isGetUsersRef.setValueAsync(false);
+    	
+		Query q = database.getReference("users").orderByChild("name").equalTo(searchQuery);
+		q.addListenerForSingleValueEvent(new ValueEventListener() {
+
+			@Override
+			public void onDataChange(DataSnapshot snapshot) {
+				ArrayList<String> searchResults = new ArrayList<String>();
+				if(snapshot.exists()) {
+					
+					for(DataSnapshot d: snapshot.getChildren()) {
+						searchResults.add(d.getKey());
+					}
+					
+				}
+				
+				database.getReference("users").child(userKey).child("searchedUsers").setValueAsync(searchResults, null);
+			}
+
+			@Override
+			public void onCancelled(DatabaseError error) {
+				// TODO Auto-generated method stub
+			}
+		});
+		
+		DatabaseReference searchQueryRef = database.getReference("users").child(userKey).child("searchQuery").getRef();
+		searchQueryRef.setValueAsync("null");
+    }
+    
 	private void initFirebase() throws IOException {
 		FileInputStream serviceAccount = new FileInputStream("/Users/jason/Downloads/syncify-bf9e2-firebase-adminsdk-dvlw9-4bd872eead.json");
 		FirebaseOptions options = FirebaseOptions.builder()
@@ -243,6 +289,9 @@ public class Syncify extends HttpServlet {
 				Boolean isHosting = (Boolean) user.get("isHosting");
 				Boolean isPlaying = (Boolean) user.get("isPlaying");
 				
+				Boolean isGetUsers = (Boolean) user.get("isGetUsers");
+				String searchQuery  = (String) user.get("searchQuery");
+				
 				if (listeningTo.contentEquals("null") == false) {
 					addListenerToHost(listeningTo, userKey);
 				} else {
@@ -255,6 +304,9 @@ public class Syncify extends HttpServlet {
 					removeAllListenersFromHost(listeners, userKey);
 				}
 				
+				if (isGetUsers == true) {
+					search(searchQuery, userKey);
+				}
 			}
 
 			@Override
