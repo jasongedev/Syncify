@@ -7,7 +7,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 public class SearchUserActivity extends AppCompatActivity {
@@ -33,8 +31,8 @@ public class SearchUserActivity extends AppCompatActivity {
     ArrayList<User> usersList = new ArrayList<>();
 
     ValueEventListener valueListener;
-    DatabaseReference userQuery = Session.user.child("userQuery");
-    DatabaseReference getUsers = Session.user.child("getUsers");
+    DatabaseReference searchQuery = Session.user.child("searchQuery");
+    DatabaseReference isGetUsers = Session.user.child("isGetUsers");
     DatabaseReference searchedUsers = Session.user.child("searchedUsers");
 
     UserAdapter adapter;
@@ -69,8 +67,8 @@ public class SearchUserActivity extends AppCompatActivity {
                     prepSearch = true;
                     searchExec.schedule(() -> {
                         String query = editable.toString();
-                        userQuery.setValue(query);
-                        getUsers.setValue(true);
+                        searchQuery.setValue(query);
+                        isGetUsers.setValue(true);
                         prepSearch = false;
                     }, searchDelay, TimeUnit.SECONDS);
                 }

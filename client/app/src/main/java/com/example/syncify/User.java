@@ -16,8 +16,8 @@ public class User {
     public String songArtist;
     public String songUri;
     public boolean getPlaylists;
-    public boolean getUsers;
-    public String userQuery;
+    public boolean isGetUsers;
+    public String searchQuery;
     public Map<String, Boolean> listeners;
     public ArrayList<Playlist> playlists;
     public ArrayList<String> searchedUsers;
