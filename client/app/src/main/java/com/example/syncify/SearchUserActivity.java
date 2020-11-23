@@ -56,7 +56,6 @@ public class SearchUserActivity extends AppCompatActivity {
 
         setListener();
 
-        // TODO: uncomment eventually
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }

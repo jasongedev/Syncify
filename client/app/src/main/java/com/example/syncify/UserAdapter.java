@@ -35,7 +35,6 @@ public class UserAdapter extends ArrayAdapter<User> {
                     R.layout.list_item_user, parent, false);
         }
 
-        // TODO: uncomment and fix once layout files are ready
         TextView username = convertView.findViewById(R.id.user_name);
         ImageView profilePic = convertView.findViewById(R.id.avatar_pic);
         ImageView hosting = convertView.findViewById(R.id.user_isActive);
@@ -64,19 +63,5 @@ public class UserAdapter extends ArrayAdapter<User> {
         });
 
         return convertView;
-    }
-
-    private void convertBitmap(String src, Bitmap[] bitmaps, int index) {
-        //Thread thread = new Thread(() -> {
-            try {
-                URL imageUrl = new URL(src);
-                bitmaps[index] = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
-            } catch(IOException e) {
-                // TODO: change this to default profile picture
-                bitmaps[index] = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.syncify_grey);
-            }
-        //});
-
-        //thread.start();
     }
 }
