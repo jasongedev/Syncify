@@ -44,7 +44,6 @@ public class SyncifyTest {
 	/*
 	 * 
 	
-	
 	DatabaseReference ref1 = database.getReference("users/"); 
 	
 	DatabaseReference userRef1 = ref1.push();
