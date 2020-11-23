@@ -1,6 +1,7 @@
 package com.example.syncify;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class User {
     public String key;
@@ -17,11 +18,12 @@ public class User {
     public boolean getPlaylists;
     public boolean getUsers;
     public String userQuery;
-    public ArrayList<String> listeners;
+    public Map<String, Boolean> listeners;
     public ArrayList<Playlist> playlists;
     public ArrayList<String> searchedUsers;
     public String prevListeningTo;
     public String listeningTo;
+    public Long numOfListeners;
 
     public User() {
         isGuest = true;

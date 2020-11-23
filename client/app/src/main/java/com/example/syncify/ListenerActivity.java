@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
@@ -33,6 +34,8 @@ public class ListenerActivity extends  MusicPlayerActivity {
     private Subscription<PlayerState> mSub;
     private boolean firstSong = true;
     ScheduledExecutorService service;
+    ValueEventListener watchListener;
+    DatabaseReference listenerRef = Session.user.child("numOtherListeners");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class ListenerActivity extends  MusicPlayerActivity {
         trackEnd = findViewById(R.id.trackEnd);
         progressBar = findViewById(R.id.trackProgress);
         progressBar.setMin(0);
+        listenerCount = findViewById(R.id.listenerCount);
 
         connectAppRemote();
         startSoundBarAnim();
@@ -59,7 +63,7 @@ public class ListenerActivity extends  MusicPlayerActivity {
         Session.user.child("listeningTo").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue(String.class) == null){
+                if (snapshot.getValue(String.class).equals("null")) {
                     exitRoom(new View(getApplicationContext()));
                 }
             }
@@ -69,6 +73,8 @@ public class ListenerActivity extends  MusicPlayerActivity {
 
             }
         });
+
+        watchNumListeners();
     }
 
     // Connect to API
@@ -194,6 +200,27 @@ public class ListenerActivity extends  MusicPlayerActivity {
         });
     }
 
+    private void watchNumListeners() {
+
+        watchListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String count;
+
+                count = snapshot.getValue(String.class);
+
+                listenerCount.setText(String.valueOf(count));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
+        listenerRef.addValueEventListener(watchListener);
+    }
+
     String milliToTime(long milli) {
         long mins = milli / 60000;
         long secs = (milli % 60000) / 1000;
@@ -202,7 +229,8 @@ public class ListenerActivity extends  MusicPlayerActivity {
 
     public void exitRoom(View v){
         playerApi.pause().setResultCallback(empty -> {
-            Session.user.child("listeningTo").setValue(null);
+            listenerRef.removeEventListener(watchListener);
+            Session.user.child("listeningTo").setValue("null");
             service.shutdownNow();
             mSub.cancel();
             SpotifyAppRemote.disconnect(mSpotifyAppRemote);

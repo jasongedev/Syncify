@@ -11,7 +11,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SelectPlaylistActivity extends AppCompatActivity {
 
@@ -19,6 +24,7 @@ public class SelectPlaylistActivity extends AppCompatActivity {
     List<Playlist> list;
     Playlist[] playlists;
     ValueEventListener listener;
+    Map<String, Playlist> playlistMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,30 +34,6 @@ public class SelectPlaylistActivity extends AppCompatActivity {
         mListView = findViewById(R.id.list_view);
         Session.user.child("getPlaylists").setValue(true);
         listenToPlaylistField();
-
-        /*TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                List<Playlist> lists = new ArrayList<>();
-                Playlist play1 = new Playlist();
-                play1.name = "my name";
-                play1.imageUrl = "my url";
-                play1.uri = "my uri";
-
-                Playlist play2 = new Playlist();
-                play2.name = "the name";
-                play2.imageUrl = "the url";
-                play2.uri = "the uri";
-
-                lists.add(play1);
-                lists.add(play2);
-
-                Session.user.child("playlists").setValue(lists);
-            }
-        };
-
-        Timer myTimer = new Timer();
-        myTimer.schedule(task, 100);*/
     }
 
     public void listenToPlaylistField() {
@@ -59,8 +41,13 @@ public class SelectPlaylistActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 GenericTypeIndicator<List<Playlist>> t = new GenericTypeIndicator<List<Playlist>>() {};
+                //GenericTypeIndicator<Map<String, Playlist>> m = new GenericTypeIndicator<Map<String, Playlist>>() {};
                 list = snapshot.getValue(t);
-                createPlaylistArray();
+
+                list = snapshot.getValue(t);
+                if (list != null) {
+                    createPlaylistArray();
+                }
             }
 
             @Override
@@ -89,7 +76,11 @@ public class SelectPlaylistActivity extends AppCompatActivity {
     }
 
     private void  populateListView(Playlist[] playlists) {
-        PlaylistAdapter adapter = new PlaylistAdapter(this, playlists);
-        mListView.setAdapter(adapter);
+        Thread thread = new Thread(() -> {
+            PlaylistAdapter adapter = new PlaylistAdapter(getBaseContext(), playlists);
+            adapter.createBitmaps();
+            runOnUiThread(() -> mListView.setAdapter(adapter));
+        });
+        thread.start();
     }
 }

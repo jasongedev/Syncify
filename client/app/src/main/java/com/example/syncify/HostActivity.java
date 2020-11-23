@@ -23,6 +23,7 @@ import com.spotify.protocol.types.Track;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -147,10 +148,10 @@ public class HostActivity extends MusicPlayerActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() == null) return;
 
-                GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
-                List<String> keyList = snapshot.getValue(t);
+                GenericTypeIndicator<Map<String, Boolean>> t = new GenericTypeIndicator<Map<String, Boolean>>() {};
+                Map<String, Boolean> keyList = snapshot.getValue(t);
                 if (keyList != null) {
-                    listenerCount.setText(String.valueOf(keyList.size()));
+                    listenerCount.setText(String.valueOf(keyList.size() - 1));
                 }
             }
 
