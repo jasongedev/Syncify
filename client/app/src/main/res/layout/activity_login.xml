@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spotifysignin"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.785" />
 
     <Button
         android:id="@+id/spotifysignin"
