@@ -63,7 +63,7 @@ public class ListenerActivity extends  MusicPlayerActivity {
         Session.user.child("listeningTo").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue(String.class).equals("null")) {
+                if (snapshot.getValue() != null && snapshot.getValue(String.class).equals("null")) {
                     exitRoom(new View(getApplicationContext()));
                 }
             }
@@ -187,9 +187,9 @@ public class ListenerActivity extends  MusicPlayerActivity {
         Session.user.child("timestamp").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Long temp = snapshot.getValue(Long.class);
+                Number temp = snapshot.getValue(Number.class);
                 if (temp != null) {
-                    playerApi.seekTo(temp);
+                    playerApi.seekTo((Long) temp);
                 }
             }
 

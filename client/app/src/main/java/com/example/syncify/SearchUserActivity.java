@@ -53,7 +53,7 @@ public class SearchUserActivity extends AppCompatActivity {
         Session.user.child("productType").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue(String.class).equals("open")) {
+                if (snapshot.getValue(String.class) != null && snapshot.getValue(String.class).equals("open")) {
                     canListen = false;
                 } else {
                     canListen = true;
