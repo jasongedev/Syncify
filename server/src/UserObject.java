@@ -5,19 +5,16 @@ public class UserObject {
 	public Boolean isPlaying;
 	public String userQuery;
 	public Boolean getUsers;
+	private String accessToken;
 	
-	public UserObject() {
+
 	
+	public UserObject(String string, double d, boolean b, String string2, boolean c) {
+		// TODO Auto-generated constructor stub
 	}
 	
-	public UserObject(String name, Long timestamp, boolean isPlaying, String userQuery, Boolean getUsers) {
-		// TODO Auto-generated constructor stub
-		this.name = name;
-		this.timestamp = timestamp;
-		this.isPlaying = isPlaying;
-		this.userQuery = userQuery;
-		this.getUsers = getUsers;
-		
+	public String accessToken() {
+		return accessToken;
 	}
 
 	public String getName() {

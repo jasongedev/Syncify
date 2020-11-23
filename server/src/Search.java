@@ -4,9 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -51,7 +49,7 @@ public class Search extends HttpServlet {
     }
     
 	private void initFirebase() throws IOException {
-		FileInputStream serviceAccount = new FileInputStream("/Users/crystal/Downloads/my-key.json");
+		FileInputStream serviceAccount = new FileInputStream("/Users/jason/Downloads/syncify-bf9e2-firebase-adminsdk-dvlw9-4bd872eead.json");
 		FirebaseOptions options = FirebaseOptions.builder()
 			    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
 			    .setDatabaseUrl("https://syncify-bf9e2.firebaseio.com/")
@@ -81,7 +79,7 @@ public class Search extends HttpServlet {
 
 						@Override
 						public void onDataChange(DataSnapshot snapshot) {
-							Set<String> searchResults = new HashSet<String>();
+							ArrayList<String> searchResults = new ArrayList<String>();
 							if(snapshot.exists()) {
 								for(DataSnapshot d: snapshot.getChildren()) {
 									//UserObject res = d.getValue(UserObject.class);
@@ -90,13 +88,8 @@ public class Search extends HttpServlet {
 									
 								}
 							}
-							ArrayList<String> returnList = new ArrayList();
 							
-							for(String s: searchResults) {
-								returnList.add(s);
-							}
-							
-							ref.child(userKey).child("searchedUsers").setValueAsync(returnList, null);
+							ref.child(userKey).child("searchedUsers").setValueAsync(searchResults, null);
 						}
 
 						@Override
@@ -149,10 +142,10 @@ public class Search extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		SyncifyTest test = new SyncifyTest(database);
-		test.addUsersTest();
-		test.updateUsersTest();
-		test.searchUsersTest();
+		//SyncifyTest test = new SyncifyTest(database);
+		//test.addUsersTest();
+		//test.updateUsersTest();
+		//test.searchUsersTest();
 	}
 
 	/**
