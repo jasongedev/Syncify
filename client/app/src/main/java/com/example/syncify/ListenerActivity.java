@@ -187,13 +187,9 @@ public class ListenerActivity extends  MusicPlayerActivity {
         Session.user.child("timestamp").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Integer temp = snapshot.getValue(Integer.class);
-
+                Long temp = snapshot.getValue(Long.class);
                 if (temp != null) {
-                    Log.d("Temp", "Temp: " + temp);
                     playerApi.seekTo(temp);
-                } else {
-                    Log.d("Temp", "Temp: null");
                 }
             }
 
