@@ -8,8 +8,9 @@
 
     <ImageView
         android:id="@+id/playlist_list_view"
-        android:layout_width="291dp"
+        android:layout_width="0dp"
         android:layout_height="125dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +31,7 @@
 
     <TextView
         android:id="@+id/Playlist_name"
-        android:layout_width="115dp"
+        android:layout_width="0dp"
         android:layout_height="28dp"
         android:layout_marginStart="24dp"
         android:fontFamily="@font/roboto_bold"

@@ -43,8 +43,11 @@ public class PlaylistAdapter extends ArrayAdapter<Playlist> {
 
         TextView name = convertView.findViewById(R.id.Playlist_name);
         ImageView image = convertView.findViewById(R.id.playlist_cover);
+        ImageView background = convertView.findViewById(R.id.playlist_list_view);
+
         name.setText(playlist.name);
         image.setImageBitmap(mBitmaps[position]);
+        background.setImageResource(R.drawable.base);
 
         convertView.setOnClickListener(view -> {
             Intent hostIntent = new Intent(getContext(), TransitionActivity.class);

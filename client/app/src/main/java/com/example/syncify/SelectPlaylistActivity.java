@@ -32,7 +32,6 @@ public class SelectPlaylistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_playlist);
 
         mListView = findViewById(R.id.list_view);
-        Session.user.child("getPlaylists").setValue(true);
         listenToPlaylistField();
     }
 

@@ -53,6 +53,9 @@ public class UserAdapter extends ArrayAdapter<User> {
             if (Session.isGuest) {
                 Toast toast = Toast.makeText(getContext(), "Can't join a room as a guest", Toast.LENGTH_SHORT);
                 toast.show();
+            } else if (!user.isHosting) {
+                Toast toast = Toast.makeText(getContext(), user.name + " is not hosting", Toast.LENGTH_SHORT);
+                toast.show();
             } else {
                 Intent listenerIntent = new Intent(getContext(), TransitionActivity.class);
                 listenerIntent.putExtra("Host?", false);
