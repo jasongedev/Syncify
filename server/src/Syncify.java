@@ -56,7 +56,108 @@ public class Syncify extends HttpServlet {
 		}
     }
     
+    private void sync(Map<String, Boolean> listeners, Boolean isPlaying, String songUri, Number timestamp, String userKey) {
+    	Integer numOtherListeners = listeners.size() - 1;
+    	String numOtherListenersString = Integer.toString(numOtherListeners);
+    	Iterator<Entry<String, Boolean>> it = listeners.entrySet().iterator();
+    	
+    	while (it.hasNext()) {
+    		@SuppressWarnings("rawtypes")
+			Map.Entry pair = (Map.Entry)it.next();
+    		String listenerKey = (String) pair.getKey();
+
+    	    DatabaseReference userRef = database.getReference("users").child(listenerKey);
+    		
+    		DatabaseReference listenerIsPlayingRef = userRef.child("isPlaying").getRef();
+    		listenerIsPlayingRef.setValueAsync(isPlaying);
+    		
+    		DatabaseReference listenerSongUriRef = userRef.child("songUri").getRef();
+    		listenerSongUriRef.setValueAsync(songUri);
+    		
+    		DatabaseReference timestampRef = userRef.child("timestamp").getRef();
+    		timestampRef.setValueAsync(timestamp);
+    		
+    		DatabaseReference numOtherListenersRef = userRef.child("numOtherListeners").getRef();
+    		numOtherListenersRef.setValueAsync(numOtherListenersString);
+    		
+            it.remove(); 
+    	}
+    }
+
+    private void search(String searchQuery, String userKey) {
+    	DatabaseReference isGetUsersRef = database.getReference("users").child(userKey).child("isGetUsers").getRef();
+    	isGetUsersRef.setValueAsync(false);
+    	
+		Query q = database.getReference("users").orderByChild("name").equalTo(searchQuery);
+		q.addListenerForSingleValueEvent(new ValueEventListener() {
+
+			@Override
+			public void onDataChange(DataSnapshot snapshot) {
+				ArrayList<String> searchResults = new ArrayList<String>();
+				if(snapshot.exists()) {
+					
+					for(DataSnapshot d: snapshot.getChildren()) {
+						searchResults.add(d.getKey());
+					}	
+				}
+				database.getReference("users").child(userKey).child("searchedUsers").setValueAsync(searchResults, null);
+			}
+
+			@Override
+			public void onCancelled(DatabaseError error) {
+				// TODO Auto-generated method stub
+			}
+		});
+		
+		//DatabaseReference searchQueryRef = database.getReference("users").child(userKey).child("searchQuery").getRef();
+		//searchQueryRef.setValueAsync("null");
+    }
+    
     private void createUser(String accessToken, String userKey) {
+	    DatabaseReference userRef = database.getReference("users").child(userKey);
+	    
+	    DatabaseReference keyRef = userRef.child("key").getRef();
+	    keyRef.setValueAsync(userKey);
+	    
+	    DatabaseReference isHostingRef = userRef.child("isHosting").getRef();
+	    isHostingRef.setValueAsync(false);
+	    
+	    DatabaseReference isPlayingRef = userRef.child("isPlaying").getRef();
+	    isPlayingRef.setValueAsync(false);
+	    
+	    DatabaseReference songUriRef = userRef.child("songUri").getRef();
+	    songUriRef.setValueAsync("null");
+	    
+	    DatabaseReference timestampRef = userRef.child("timestamp").getRef();
+	    timestampRef.setValueAsync(0);
+	    
+	    DatabaseReference listeningToRef = userRef.child("listeningTo").getRef();
+	    listeningToRef.setValueAsync("null");
+	    
+	    DatabaseReference prevListeningToRef = userRef.child("prevListeningTo").getRef();
+	    prevListeningToRef.setValueAsync("null");
+	    
+	    DatabaseReference numOtherListenersRef = userRef.child("numOtherListeners").getRef();
+	    numOtherListenersRef.setValueAsync("0");
+	    
+	    DatabaseReference isGetUsersRef = userRef.child("isGetUsers").getRef();
+	    isGetUsersRef.setValueAsync(false);
+	    
+	    DatabaseReference searchQuery = userRef.child("searchQuery").getRef();
+	    searchQuery.setValueAsync("null");
+	    
+	    ArrayList<String> searchResults = new ArrayList<String>();
+	    searchResults.add("spooters");
+	    
+	    DatabaseReference searchedUsersRef = userRef.child("isGetUsersRef").getRef();
+	    searchedUsersRef.setValueAsync(searchResults);
+	    
+	    Map<String, Boolean> listeners = new HashMap<String, Boolean>();
+	    listeners.put("spooters", true);
+	    
+	    DatabaseReference listenersRef = userRef.child("listeners").getRef();
+	    listenersRef.setValueAsync(listeners);
+	    
     	final SpotifyApi spotifyApi = new SpotifyApi.Builder()
 			    .setAccessToken(accessToken)
 			    .build();
@@ -68,50 +169,6 @@ public class Syncify extends HttpServlet {
 		    final CompletableFuture<User> userFuture = getCurrentUsersProfileRequest.executeAsync();
 		    final User user = userFuture.join();
 		    
-		    DatabaseReference userRef = database.getReference("users").child(userKey);
-		    
-		    DatabaseReference keyRef = userRef.child("key").getRef();
-		    keyRef.setValueAsync(userKey);
-		    
-		    DatabaseReference isHostingRef = userRef.child("isHosting").getRef();
-		    isHostingRef.setValueAsync(false);
-		    
-		    DatabaseReference isPlayingRef = userRef.child("isPlaying").getRef();
-		    isPlayingRef.setValueAsync(false);
-		    
-		    DatabaseReference songUriRef = userRef.child("songUri").getRef();
-		    songUriRef.setValueAsync("null");
-		    
-		    DatabaseReference timestampRef = userRef.child("timestamp").getRef();
-		    timestampRef.setValueAsync(0);
-		    
-		    DatabaseReference listeningToRef = userRef.child("listeningTo").getRef();
-		    listeningToRef.setValueAsync("null");
-		    
-		    DatabaseReference prevListeningToRef = userRef.child("prevListeningTo").getRef();
-		    prevListeningToRef.setValueAsync("null");
-		    
-		    DatabaseReference numOtherListenersRef = userRef.child("numOtherListeners").getRef();
-		    numOtherListenersRef.setValueAsync("0");
-		    
-		    DatabaseReference isGetUsersRef = userRef.child("isGetUsers").getRef();
-		    isGetUsersRef.setValueAsync(false);
-		    
-		    DatabaseReference searchQuery = userRef.child("searchQuery").getRef();
-		    searchQuery.setValueAsync("null");
-		    
-		    ArrayList<String> searchResults = new ArrayList<String>();
-		    searchResults.add("spooters");
-		    
-		    DatabaseReference searchedUsersRef = userRef.child("isGetUsersRef").getRef();
-		    searchedUsersRef.setValueAsync(searchResults);
-		    
-		    Map<String, Boolean> listeners = new HashMap<String, Boolean>();
-		    listeners.put("spooters", true);
-		    
-		    DatabaseReference listenersRef = userRef.child("listeners").getRef();
-		    listenersRef.setValueAsync(listeners);
-		    
 		    System.out.println("User found: " + user.getDisplayName());
 			
 		    DatabaseReference userIdRef = userRef.child("userId").getRef();
@@ -122,6 +179,9 @@ public class Syncify extends HttpServlet {
 		    
 		    DatabaseReference profilePicRef = userRef.child("profilePic").getRef();
 		    profilePicRef.setValueAsync(user.getImages()[0].getUrl());
+		    
+		    DatabaseReference productTypeRef = userRef.child("productType").getRef();
+		    productTypeRef.setValueAsync(user.getProduct().getType());
 	  	} catch (CompletionException e) {
 		    System.out.println("Error: " + e.getCause().getMessage());
 	  	} catch (CancellationException e) {
@@ -147,7 +207,6 @@ public class Syncify extends HttpServlet {
 			    		.child(Integer.toString(i)).getRef();
 			    playListRef.setValueAsync(playList);
 	        }
-
 	      } catch (CompletionException e) {
 	        System.out.println("Error: " + e.getCause().getMessage());
 	      } catch (CancellationException e) {
@@ -155,10 +214,10 @@ public class Syncify extends HttpServlet {
 	      }
     }
    
-    
     private void addListenerToHost(String listeningTo, String userKey) {
     	DatabaseReference prevListeningToRef = database.getReference("users").child(userKey).child("prevListeningTo").getRef();
     	prevListeningToRef.setValueAsync(listeningTo);
+    	
     	DatabaseReference hostRef = database.getReference("users").child(listeningTo).child("listeners").child(userKey).getRef();
     	hostRef.setValueAsync(true);
     	
@@ -168,8 +227,10 @@ public class Syncify extends HttpServlet {
     private void removeListenerFromHost(String prevListeningTo, String userKey) {
     	DatabaseReference prevHostRef = database.getReference("users").child(prevListeningTo).child("listeners").child(userKey).getRef();
     	prevHostRef.removeValueAsync();
+    	
     	DatabaseReference prevListeningToRef = database.getReference("users").child(userKey).child("prevListeningTo").getRef();
     	prevListeningToRef.setValueAsync("null");
+    	
     	DatabaseReference numOtherListenersRef = database.getReference("users").child(userKey).child("numOtherListeners").getRef();
     	numOtherListenersRef.setValueAsync("0");
     	
@@ -192,60 +253,6 @@ public class Syncify extends HttpServlet {
     		
             it.remove(); 
     	}
-    }
-    
-    private void sync(Map<String, Boolean> listeners, Boolean isPlaying, String songUri, Number timestamp, String userKey) {
-    	Integer numOtherListeners = listeners.size() - 1;
-    	String numOtherListenersString = Integer.toString(numOtherListeners);
-    	Iterator<Entry<String, Boolean>> it = listeners.entrySet().iterator();
-    	
-    	while (it.hasNext()) {
-    		@SuppressWarnings("rawtypes")
-			Map.Entry pair = (Map.Entry)it.next();
-    		
-    		String listenerKey = (String) pair.getKey();
-    		DatabaseReference listenerIsPlayingRef = database.getReference("users").child(listenerKey).child("isPlaying").getRef();
-    		listenerIsPlayingRef.setValueAsync(isPlaying);
-    		DatabaseReference listenerSongUriRef = database.getReference("users").child(listenerKey).child("songUri").getRef();
-    		listenerSongUriRef.setValueAsync(songUri);
-    		DatabaseReference timestampRef = database.getReference("users").child(listenerKey).child("timestamp").getRef();
-    		timestampRef.setValueAsync(timestamp);
-    		DatabaseReference numOtherListenersRef = database.getReference("users").child(listenerKey).child("numOtherListeners").getRef();
-    		numOtherListenersRef.setValueAsync(numOtherListenersString);
-    		
-            it.remove(); 
-    	}
-    }
-    
-    private void search(String searchQuery, String userKey) {
-    	DatabaseReference isGetUsersRef = database.getReference("users").child(userKey).child("isGetUsers").getRef();
-    	isGetUsersRef.setValueAsync(false);
-    	
-		Query q = database.getReference("users").orderByChild("name").equalTo(searchQuery);
-		q.addListenerForSingleValueEvent(new ValueEventListener() {
-
-			@Override
-			public void onDataChange(DataSnapshot snapshot) {
-				ArrayList<String> searchResults = new ArrayList<String>();
-				if(snapshot.exists()) {
-					
-					for(DataSnapshot d: snapshot.getChildren()) {
-						searchResults.add(d.getKey());
-					}
-					
-				}
-				
-				database.getReference("users").child(userKey).child("searchedUsers").setValueAsync(searchResults, null);
-			}
-
-			@Override
-			public void onCancelled(DatabaseError error) {
-				// TODO Auto-generated method stub
-			}
-		});
-		
-		DatabaseReference searchQueryRef = database.getReference("users").child(userKey).child("searchQuery").getRef();
-		searchQueryRef.setValueAsync("null");
     }
     
 	private void initFirebase() throws IOException {
