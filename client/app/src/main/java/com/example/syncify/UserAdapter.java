@@ -20,8 +20,11 @@ import java.net.URL;
 
 public class UserAdapter extends ArrayAdapter<User> {
 
-    public UserAdapter(Context context, User[] users) {
+    boolean canListen;
+
+    public UserAdapter(Context context, User[] users, boolean canListen) {
         super(context, 0, users);
+        this.canListen = canListen;
     }
 
     @Override
@@ -55,6 +58,9 @@ public class UserAdapter extends ArrayAdapter<User> {
                 toast.show();
             } else if (!user.isHosting) {
                 Toast toast = Toast.makeText(getContext(), user.name + " is not hosting", Toast.LENGTH_SHORT);
+                toast.show();
+            } else if (!canListen) {
+                Toast toast = Toast.makeText(getContext(), "Can't join a room as a free user", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
                 Intent listenerIntent = new Intent(getContext(), TransitionActivity.class);

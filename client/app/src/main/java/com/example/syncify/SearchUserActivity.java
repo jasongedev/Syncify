@@ -43,13 +43,31 @@ public class SearchUserActivity extends AppCompatActivity {
     long searchDelay = 1;
     ScheduledExecutorService searchExec = new ScheduledThreadPoolExecutor(1);
     Context mContext = this;
+    boolean canListen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_user);
+
+        Session.user.child("productType").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue(String.class).equals("open")) {
+                    canListen = false;
+                } else {
+                    canListen = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         editText = findViewById(R.id.search_user_text);
-        adapter = new UserAdapter(this, users);
+        adapter = new UserAdapter(this, users, canListen);
         listView = findViewById(R.id.list_view);
 
         setListener();
@@ -91,7 +109,7 @@ public class SearchUserActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             usersList.add(snapshot.getValue(User.class));
 
-                            adapter = new UserAdapter(mContext, usersList.toArray(users));
+                            adapter = new UserAdapter(mContext, usersList.toArray(users), canListen);
                             listView.setAdapter(adapter);
                         }
 
