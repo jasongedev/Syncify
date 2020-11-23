@@ -21,8 +21,8 @@ public class SyncifyTest {
 		
 		//Map<String, UserObject> userMap1 = new HashMap<String, UserObject>();
 		
-		//DatabaseReference userRef1 = ref1.push();
-		//userRef1.setValueAsync(user1);
+		DatabaseReference userRef1 = ref.push();
+		userRef1.setValueAsync(user1);
 		testUserRef1 = ref.push();
 		testUserRef1.setValueAsync(user1);
 

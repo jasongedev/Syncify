@@ -9,9 +9,10 @@
 
     <Button
         android:id="@+id/guestsignin"
-        android:layout_width="208dp"
-        android:layout_height="55dp"
+        android:layout_width="205dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="48dp"
+        android:background="@drawable/rounded_button"
         android:fontFamily="@font/roboto_bold"
         android:onClick="loginAsGuest"
         android:text="Use as Guest"
@@ -19,16 +20,16 @@
         app:backgroundTint="@color/darkgreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spotifysignin"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.25" />
 
     <Button
         android:id="@+id/spotifysignin"
-        android:layout_width="208dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="68dp"
+        android:layout_width="205dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="76dp"
+        android:background="@drawable/rounded_button"
         android:fontFamily="@font/roboto_bold"
         android:onClick="loginWithSpotify"
         android:text="Sign in (with Spotify)"
