@@ -36,7 +36,6 @@ public class ListenerActivity extends  MusicPlayerActivity {
     ScheduledExecutorService service;
     ValueEventListener watchListener;
     DatabaseReference listenerRef = Session.user.child("numOtherListeners");
-    long timeStamp = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,14 +167,32 @@ public class ListenerActivity extends  MusicPlayerActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Boolean isplaying = snapshot.getValue(Boolean.class);
                 if (isplaying != null && isplaying){
+
+                    resetTime();
                     playerApi.resume();
                     toggleSoundBarAnim(true);
-                    playerApi.seekTo(timeStamp);
                 }
                 else if (isplaying != null){
+                    resetTime();
                     playerApi.pause();
                     toggleSoundBarAnim(false);
-                    playerApi.seekTo(timeStamp);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void resetTime() {
+        Session.user.child("timestamp").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Long time = snapshot.getValue(Long.class);
+                if (time != null) {
+                    playerApi.seekTo(time);
                 }
             }
 
@@ -192,7 +209,7 @@ public class ListenerActivity extends  MusicPlayerActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Long temp = snapshot.getValue(Long.class);
                 if (temp != null) {
-                    timeStamp = temp;
+                    playerApi.seekTo(temp);
                 }
             }
 
